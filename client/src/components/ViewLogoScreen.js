@@ -4,6 +4,9 @@ import '../App.css';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import DisplayLogo from './DisplayLogo.js';
+import GologoloAppBarViewScreen from './GologoloNavBarViewScreen.js';
+import { Grid, Button } from '@material-ui/core';
+import { DeleteForever } from '@material-ui/icons';
 
 const GET_LOGO = gql`
     query logo($logoId: String) {
@@ -42,60 +45,87 @@ class ViewLogoScreen extends Component {
                     if (error) return `Error! ${error.message}`;
 
                     return (
-                        <div className="container">
-                            <div className="panel_panel_default">
-                                <div className="panel-heading">
-                                    <h4><Link to="/">Home</Link></h4>
-                                    <h3 className="panel-title">
-                                        View Logo
-                                    </h3>
-                                </div>
-                                <div className = "panel_with_displayed_logo">
-                                    <div className="panel-body">
-                                        <dl>
-                                            <dt>Text:</dt>
-                                            <dd id = "textDD">{data.logo.text}</dd>
-                                            <dt>Color:</dt>
-                                            <dd>{data.logo.color}</dd>
-                                            <dt>Font Size:</dt>
-                                            <dd>{data.logo.fontSize}</dd>
-                                            <dt>Background Color:</dt>
-                                            <dd>{data.logo.backgroundColor}</dd>
-                                            <dt>Border Color:</dt>
-                                            <dd>{data.logo.borderColor}</dd>
-                                            <dt>Border Radius:</dt>
-                                            <dd>{data.logo.borderRadius}</dd>
-                                            <dt>Border Thickness:</dt>
-                                            <dd>{data.logo.borderWidth}</dd>
-                                            <dt>Padding:</dt>
-                                            <dd>{data.logo.padding}</dd>
-                                            <dt>Margin:</dt>
-                                            <dd>{data.logo.margin}</dd>
-                                            <dt>Last Updated:</dt>
-                                            <dd>{data.logo.lastUpdate}</dd>
-                                        </dl>
+                        <div>
+                            <GologoloAppBarViewScreen/>
+                            <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="flex-start"
+                            >
+                                <Grid
+                                id = "viewScreenGridContainer"
+                                container
+                                direction="column"
+                                justify="space-between"
+                                alignItems="flex-start"
+                                xs = {3}
+                                >
+                                    <Grid item>
+                                        <dt>Text:</dt>
+                                        <dd id = "textDD">{data.logo.text}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Font Color:</dt>
+                                        <dd>{data.logo.color}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Font Size:</dt>
+                                        <dd>{data.logo.fontSize}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Background Color:</dt>
+                                        <dd>{data.logo.backgroundColor}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Border Color:</dt>
+                                        <dd>{data.logo.borderColor}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Border Radius:</dt>
+                                        <dd>{data.logo.borderRadius}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Border Thickness:</dt>
+                                        <dd>{data.logo.borderWidth}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Padding:</dt>
+                                        <dd>{data.logo.padding}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Margin:</dt>
+                                        <dd>{data.logo.margin}</dd>
+                                    </Grid>
+                                    <Grid item>
+                                        <dt>Last Updated:</dt>
+                                        <dd>{data.logo.lastUpdate}</dd>
+                                    </Grid>
+                                    <Grid item id = "viewScreenButtons">
                                         <Mutation mutation={DELETE_LOGO} key={data.logo._id} onCompleted={() => this.props.history.push('/')}>
-                                            {(removeLogo, { loading, error }) => (
-                                                <div>
-                                                    <form
-                                                        onSubmit={e => {
-                                                            e.preventDefault();
-                                                            removeLogo({ variables: { id: data.logo._id } });
-                                                        }}>
-                                                        <Link to={`/edit/${data.logo._id}`} className="btn btn-success">Edit</Link>&nbsp;
-                                                    <button type="submit" className="btn btn-danger">Delete</button>
-                                                    </form>
-                                                    {loading && <p>Loading...</p>}
-                                                    {error && <p>Error. Please try again</p>}
-                                                </div>
-                                            )}
+                                                {(removeLogo, { loading, error }) => (
+                                                    <div>
+                                                        <form
+                                                            onSubmit={e => {
+                                                                e.preventDefault();
+                                                                removeLogo({ variables: { id: data.logo._id } });
+                                                            }}>
+                                                            <Button variant = "contained" id = "viewScreenEditButton">
+                                                                <Link to={`/edit/${data.logo._id}`} id = "toEditScreenlink">Edit</Link>&nbsp;
+                                                            </Button>
+                                                        <button type="submit" className="btn btn-danger" id = "viewScreenDeleteButton"><DeleteForever/></button>
+                                                        </form>
+                                                        {loading && <p>Loading...</p>}
+                                                        {error && <p>Error. Please try again</p>}
+                                                    </div>
+                                                )}
                                         </Mutation>
-                                    </div>
-                                    <div id = "displayedLogoViewLogoScreen">
-                                        <DisplayLogo logo = {data.logo} logoText = {data.logo.text}></DisplayLogo>
-                                    </div>
-                                </div>
-                            </div>
+                                    </Grid>
+                                </Grid>
+                                <Grid item id = "viewScreenLogo">
+                                    <DisplayLogo logo = {data.logo} logoText = {data.logo.text}  />
+                                </Grid>
+                            </Grid>
                         </div>
                     );
                 }}
@@ -105,3 +135,4 @@ class ViewLogoScreen extends Component {
 }
 
 export default ViewLogoScreen;
+

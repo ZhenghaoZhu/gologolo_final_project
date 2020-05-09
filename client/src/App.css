@@ -4,7 +4,7 @@
       COLORS THAT WE'LL USE TOGETHER IN MULTIPLE PLACES THAT
       TOGETHER WILL MAKE UP A GIVEN THEME
   */
-  --swatch-foundation:    #EEEEDD; /* USED FOR BODY BACKGROUND */
+  --swatch-foundation:    rgba(226, 226, 220, 0.788); /* USED FOR BODY BACKGROUND */
   --swatch-primary:       #E6E6E6; /* DOMINANT COLOR, USED FOR MOST BACKGROUNDS */
   --swatch-complement:    rgb(223, 224, 211); /* USED IN FORGROUND OF PRIMARY FOR TEXT AND BORDERS */
   --swatch_contrast:      #111111; /* USED IN MOUSE-OVER SELECTION OF LARGE ELEMENTS */
@@ -16,6 +16,7 @@
 body {
   background-color: var(--swatch-foundation);
   /*font-family: 'Lexend Exa';*/
+  white-space: pre;
 }
 
 #home_banner_container {
@@ -76,7 +77,6 @@ body {
 }
 
 #homeLogOutButton {
-  margin-top: 30px;
   margin-left: 89%;
   width: 10%;
   height: 50px;
@@ -119,4 +119,107 @@ body {
 #homeToLogInScreenLink {
   color: black;
   width: 500px;
+}
+
+#displayedLogoViewLogoScreen {
+  white-space: pre;
+  display: inline-block;
+  margin-left: 160px;
+  margin-top:160px;
+}
+
+#testLogo {
+  white-space: pre;
+  display: inline-block;
+  margin-left: 260px;
+  margin-top:160px;
+}
+
+.panel_with_displayed_logo {
+  display: flex
+}
+
+#editScreenGridContainer {
+  width: 95%;
+  margin-top: 10px;
+  margin-left: 50px;
+  padding-left: 40px;
+}
+
+#editScreenLogo {
+  white-space: pre;
+}
+
+#editScreenSubmitButton {
+  width: 100%;
+  margin-top: 5px;
+}
+
+#viewScreenGridContainer {
+  width: 80%;
+  margin-top: 3%;
+  padding-left: 40px;
+}
+
+#viewScreenLogo {
+  margin-top: 10%;
+}
+
+#viewScreenEditButton {
+  width: 120px;
+  height: 40px;
+  margin-right: 3px;
+  background-color: rgb(89, 201, 67);
+}
+
+#toEditScreenlink {
+  width: 100%;
+  color: white;
+  font-weight: bold;
+}
+
+#viewScreenDeleteButton {
+  width: 90px;
+  height: 41px;
+  color: white;
+  font-weight: bold;
+}
+
+#viewScreenButtons {
+  margin-top: 10px;
+}
+
+#editScreenLogoComponent {
+  margin-right: 40%;
+}
+
+#addTextBoxAndImageButtons {
+  margin-bottom: 200px;
+}
+
+#testGrid {
+  border: solid;
+  border-color: red;
+  width: 80%;
+}
+
+#addTextBoxButton {
+  position: absolute;
+  right: 0;
+  margin-right: 50px;
+  width: 150px;
+}
+
+#addImageButton {
+  position: absolute;
+  right: 0;
+  margin-right: 50px;
+  width: 150px;
+}
+
+#test {
+  border: solid;
+  border-color: red;
+  font-size: 32px;
+  background-color: blue;
 }
