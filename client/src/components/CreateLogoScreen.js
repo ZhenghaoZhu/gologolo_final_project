@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { Link } from "react-router-dom";
-import DisplayLogo from './DisplayLogo.js';
+import LogoCanvas from './LogoCanvas.js';
+import GologoloNavBar from './GologoloNavBar.js';
 
 const ADD_LOGO = gql`
   mutation AddLogo(
@@ -39,10 +40,10 @@ const ADD_LOGO = gql`
                     super(props);
                     this.state = {
                     text: "Change this Text",
-                    color: "#0000FF",
+                    color: "#0012FF",
                     fontSize: 30,
-                    borderColor: "#FF0000",
-                    backgroundColor: "#00FF00", 
+                    borderColor: "#FF1200",
+                    backgroundColor: "#FFFF00", 
                     borderRadius: 40,
                     borderWidth: 30,
                     padding: 15,
@@ -113,10 +114,7 @@ const ADD_LOGO = gql`
                         <div className="container panel panel-default">
                             <div className="leftbox">
                             <div className="panel-heading">
-                                <h4>
-                                <Link to="/">Home</Link>
-                                </h4>
-                                <h3 className="panel-title">Create Logo</h3>
+                                <GologoloNavBar currentScreen = "Create Screen"/>
                             </div>
                             <div className="panel-body">
                                 <div className = "panel_with_displayed_logo">
@@ -265,8 +263,8 @@ const ADD_LOGO = gql`
                                     Submit
                                 </button>
                                 </form>
-                                <div id = "displayedLogoViewLogoScreen">
-                                    <DisplayLogo logo = {styles.container} logoText = {this.state.text}></DisplayLogo>
+                                <div id = "createScreenLogoCanvas">
+                                    <LogoCanvas styles = {this.state} logoText = {this.state.text}></LogoCanvas>
                                 </div>
                                 </div>
                                 {loading && <p>Loading...</p>}

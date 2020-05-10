@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
-import DisplayLogo from './DisplayLogo.js';
-import { Grid, TextField, Button, Avatar, Link as MaterialUILink, Paper } from '@material-ui/core';
-import GologoloAppBar from './GologoloNavBarEditScreen.js';
-import { GithubPicker, SliderPicker } from 'react-color';
-import { SaveIcon } from '@material-ui/icons';
+import LogoTextBox from './LogoTextBox.js';
+import GologoloNavBar from './GologoloNavBar.js';
 
 const GET_LOGO = gql`
   query logo($logoId: String) {
@@ -94,17 +91,17 @@ class EditLogoScreen extends Component {
 
   handleColorChange = (event) => {
     this.buttonStatus = false;
-    this.setState({ color: event.hex });
+    this.setState({ color: event.target.value });
   };
 
   handleBackgroundColorChange = (event) => {
     this.buttonStatus = false;
-    this.setState({ backgroundColor: event.hex });
+    this.setState({ backgroundColor: event.target.value });
   };
 
   handleBorderColorChange = (event) => {
     this.buttonStatus = false;
-    this.setState({ borderColor: event.hex });
+    this.setState({ borderColor: event.target.value });
   };
 
   handleBorderRadiusChange = (event) => {
@@ -185,182 +182,181 @@ class EditLogoScreen extends Component {
               onCompleted={() => this.props.history.push(`/`)}
             >
               {(updateLogo, { loading, error }) => (
-                <div>
-                  <GologoloAppBar>
-                  </GologoloAppBar>
-                  <Grid
-                    id = "editScreenGridContainer"
-                    container
-                    direction="row"
-                    justify="space-between"
-                    alignItems="center"
-                    xs = {12}
-                  >
-                    <Grid item xs = {2}>
+                <div className="container panel panel-default">
+                  <div className="leftbox">
+                    <div className="panel-heading">
+                      <GologoloNavBar currentScreen = "Edit Screen"/>
+                    </div>
+                    <div className="panel-body">
+                    <div className = "panel_with_displayed_logo ">
                       <form
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                            updateLogo({
-                              variables: {
-                                id: data.logo._id,
-                                text: this.state.text,
-                                color: this.state.color,
-                                fontSize: parseInt(this.state.fontSize),
-                                backgroundColor: this.state.backgroundColor,
-                                borderColor: this.state.borderColor,
-                                borderRadius: parseInt(this.state.borderRadius),
-                                borderWidth: parseInt(this.state.borderWidth),
-                                padding: parseInt(this.state.padding),
-                                margin: parseInt(this.state.margin)
-                              },
-                            });
-                          }}
-                        >
-                          <div className="form-group">
-                            <label htmlFor="text">Text:</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="text"
-                              placeholder="Text"
-                              defaultValue={data.logo.text}
-                              onChange={this.handleTextChange}
-                              required
-                            />
-                          </div>
-                          <label htmlFor="text">Font Color:</label>
-                          <GithubPicker
-                            width = "relative"
-                            triangle = "hide"
-                            name = "color"
-                            colors = {['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB', '#EB9694', '#FAD0C3', '#FEF3BD', '#C1E1C5', '#BEDADC', '#C4DEF6', '#BED3F3', '#D4C4FB', '#957DAD', '#D291BC', '#fbd4c4', '#e1b09c', '#af8d8d', '#b07777']}
-                            defaultValue = {data.logo.color}
-                            onChange = {this.handleColorChange}
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          updateLogo({
+                            variables: {
+                              id: data.logo._id,
+                              text: this.state.text,
+                              color: this.state.color,
+                              fontSize: parseInt(this.state.fontSize),
+                              backgroundColor: this.state.backgroundColor,
+                              borderColor: this.state.borderColor,
+                              borderRadius: parseInt(this.state.borderRadius),
+                              borderWidth: parseInt(this.state.borderWidth),
+                              padding: parseInt(this.state.padding),
+                              margin: parseInt(this.state.margin)
+                            },
+                          });
+                        }}
+                      >
+                        <div className="form-group">
+                          <label htmlFor="text">Text:</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="text"
+                            placeholder="Text"
+                            defaultValue={data.logo.text}
+                            onChange={this.handleTextChange}
+                            required
                           />
-
-                          {/* <label htmlFor="fontSize">Font Size:</label> */}
-                          <div className="form-group">
-                            <label htmlFor="fontSize">Font Size:</label>
-                            <input
-                              type="number"
-                              min="2"
-                              max="80"
-                              className="form-control"
-                              name="fontSize"
-                              placeholder="Font Size"
-                              defaultValue={data.logo.fontSize}
-                              onChange={this.handleFontSizeChange}
-                              required
-                            />
-                          </div>
-
-                            <label htmlFor="color"> Background Color:</label>
-                            <GithubPicker
-                            width = "relative"
-                            triangle = "hide"
-                            name = "color"
-                            colors = {['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB', '#EB9694', '#FAD0C3', '#FEF3BD', '#C1E1C5', '#BEDADC', '#C4DEF6', '#BED3F3', '#D4C4FB', '#957DAD', '#D291BC', '#fbd4c4', '#e1b09c', '#af8d8d', '#b07777']}
-                            defaultValue = {data.logo.color}
-                            onChange = {this.handleBackgroundColorChange}
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="color">Color:</label>
+                          <input
+                            type="color"
+                            className="form-control"
+                            name="color"
+                            placeholder="Color"
+                            defaultValue={data.logo.color}
+                            onChange={this.handleColorChange}
                           />
+                        </div>
 
-                            <label htmlFor="color"> Border Color:</label>
-                            <GithubPicker
-                            width = "relative"
-                            triangle = "hide"
-                            name = "color"
-                            colors = {['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB', '#EB9694', '#FAD0C3', '#FEF3BD', '#C1E1C5', '#BEDADC', '#C4DEF6', '#BED3F3', '#D4C4FB', '#957DAD', '#D291BC', '#fbd4c4', '#e1b09c', '#af8d8d', '#b07777']}
-                            defaultValue = {data.logo.color}
-                            onChange = {this.handleBorderColorChange}
+                        <div className="form-group">
+                          <label htmlFor="fontSize">Font Size:</label>
+                          <input
+                            type="number"
+                            min="2"
+                            max="144"
+                            className="form-control"
+                            name="fontSize"
+                            placeholder="Font Size"
+                            defaultValue={data.logo.fontSize}
+                            onChange={this.handleFontSizeChange}
+                            required
                           />
+                        </div>
 
-                          <div className="form-group">
-                            <label> Border Radius:</label>
-                            <input
-                              type="number"
-                              min="2"
-                              max="144"
-                              className="form-control"
-                              name="borderRadius"
-                              placeholder="Border Radius"
-                              defaultValue={data.logo.borderRadius}
-                              onChange={this.handleBorderRadiusChange}
-                              required
-                            />
-                          </div>
+                        <div className="form-group">
+                          <label htmlFor="color"> Background Color:</label>
+                          <input
+                            type="color"
+                            className="form-control"
+                            name="backgroundColor"
+                            placeholder="Background Color"
+                            defaultValue={data.logo.backgroundColor}
+                            onChange={this.handleBackgroundColorChange}
+                          />
+                        </div>
 
-                          <div className="form-group">
-                            <label>Border Thickness:</label>
-                            <input
-                              type="number"
-                              min="2"
-                              max="144"
-                              className="form-control"
-                              name="borderWidth"
-                              placeholder="Border Width"
-                              defaultValue={data.logo.borderWidth}
-                              onChange={this.handleWidthChange}
-                              required
-                            />
-                          </div>
+                        <div className="form-group">
+                          <label htmlFor="color"> Border Color:</label>
+                          <input
+                            type="color"
+                            className="form-control"
+                            name="borderColor"
+                            placeholder="Border Color"
+                            defaultValue={data.logo.borderColor}
+                            onChange={this.handleBorderColorChange}
+                          />
+                        </div>
 
-                          <div className="form-group">
-                            <label>Border Padding:</label>
-                            <input
-                              type="number"
-                              min="2"
-                              max="144"
-                              className="form-control"
-                              name="padding"
-                              placeholder="Border Padding"
-                              defaultValue={data.logo.padding}
-                              onChange={this.handlePaddingChange}
-                              required
-                            />
-                          </div>
+                        <div className="form-group">
+                          <label> Border Radius:</label>
+                          <input
+                            type="number"
+                            min="2"
+                            max="144"
+                            className="form-control"
+                            name="borderRadius"
+                            placeholder="Border Radius"
+                            defaultValue={data.logo.borderRadius}
+                            onChange={this.handleBorderRadiusChange}
+                            required
+                          />
+                        </div>
 
-                          <div className="form-group">
-                            <label> Border Margin:</label>
-                            <input
-                              type="number"
-                              min="2"
-                              max="144"
-                              className="form-control"
-                              name="margin"
-                              placeholder="Border Margin"
-                              defaultValue={data.logo.margin}
-                              onChange={this.handleMarginChange}
-                              required
-                            />
-                          </div>
+                        <div className="form-group">
+                          <label>Border Thickness:</label>
+                          <input
+                            type="number"
+                            min="2"
+                            max="144"
+                            className="form-control"
+                            name="borderWidth"
+                            placeholder="Border Width"
+                            defaultValue={data.logo.borderWidth}
+                            onChange={this.handleWidthChange}
+                            required
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label>Border Padding:</label>
+                          <input
+                            type="number"
+                            min="2"
+                            max="144"
+                            className="form-control"
+                            name="padding"
+                            placeholder="Border Padding"
+                            defaultValue={data.logo.padding}
+                            onChange={this.handlePaddingChange}
+                            required
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label> Border Margin:</label>
+                          <input
+                            type="number"
+                            min="2"
+                            max="144"
+                            className="form-control"
+                            name="margin"
+                            placeholder="Border Margin"
+                            defaultValue={data.logo.margin}
+                            onChange={this.handleMarginChange}
+                            required
+                          />
+                        </div>
 
                         <button
                           type="submit"
-                          id = "editScreenSubmitButton"
                           className="btn btn-success"
                           disabled={this.buttonStatus}
-                          >
-                            Submit
-                          </button>
-                        </form>
-                    </Grid>
-                        <DisplayLogo id = "editScreenLogo"logo = {{
-                            display: "inline-block",
-                            color: this.state.color,
-                            fontSize: parseInt(this.state.fontSize),
-                            backgroundColor: this.state.backgroundColor, 
-                            borderRadius: parseInt(this.state.borderRadius), 
-                            borderColor: this.state.borderColor,
-                            borderWidth: parseInt(this.state.borderWidth),
-                            padding: parseInt(this.state.padding),
-                            margin: parseInt(this.state.margin),
-                            borderStyle: "solid",
-                            position: "center",
-                          }} logoText = {this.state.text}/>
-                  </Grid>
-                  <div className="panel-body">
-                    {loading && <p>Loading...</p>}
-                    {error && <p>Error :( Please try again</p>}
+                        >
+                          Submit
+                        </button>
+                      </form>
+                      <div id = "displayedLogoViewLogoScreen">
+                            <LogoTextBox styles = {{
+                                                color: this.state.color,
+                                                fontSize: parseInt(this.state.fontSize),
+                                                backgroundColor: this.state.backgroundColor, 
+                                                borderRadius: parseInt(this.state.borderRadius), 
+                                                borderColor: this.state.borderColor,
+                                                borderWidth: parseInt(this.state.borderWidth),
+                                                padding: parseInt(this.state.padding),
+                                                margin: parseInt(this.state.margin),
+                                                borderStyle: "solid",
+                                                position: "center",
+                            }} logoText = {this.state.text}></LogoTextBox>
+                        </div>
+                      </div>
+                      {loading && <p>Loading...</p>}
+                      {error && <p>Error :( Please try again</p>}
+                    </div>
                   </div>
                 </div>
               )}

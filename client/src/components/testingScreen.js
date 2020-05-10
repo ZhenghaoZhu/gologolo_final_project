@@ -1,87 +1,64 @@
-import React from "react";
-//import ResizePanel from "react-resize-panel";
-import ResizePanel from "react-resize-panel";
-import style from './../../src/testing/testing.css';
-import classNames from 'classnames/bind';
-import DisplayLogo from './DisplayLogo.js';
-import Draggable from 'react-draggable';
+import React from 'react';
+import LogoTextBox from './LogoTextBox.js';
 
-let cx = classNames.bind(style);
+import _ from "lodash";
+import RGL, { WidthProvider } from "react-grid-layout";
 
-export default () => (
-  <div className={cx('container')}>
-    <ResizePanel direction="s">
-      <div className={cx('header', 'panel')}>
-        <span>
-        <DisplayLogo id = "editScreenLogo"logo = {{
-                            display: "inline-block",
-                            color: "#FF0000",
-                            fontSize: 12,
-                            backgroundColor: "#FF00FF", 
-                            borderRadius: 12, 
-                            borderColor: "#FF0000",
-                            borderWidth: 12,
-                            padding: 12,
-                            margin: 12,
-                            borderStyle: "solid",
-                            position: "center",
-                          }} logoText = "Text"/>
-        </span>
-        <span>
-        <DisplayLogo id = "editScreenLogo"logo = {{
-                            display: "inline-block",
-                            color: "#FF0000",
-                            fontSize: 12,
-                            backgroundColor: "#FF00FF", 
-                            borderRadius: 12, 
-                            borderColor: "#FF0000",
-                            borderWidth: 12,
-                            padding: 12,
-                            margin: 12,
-                            borderStyle: "solid",
-                            position: "center",
-                          }} logoText = "Text"/>
-        </span>
-      </div>
-    </ResizePanel>
-    <div className={cx('body')}>
+const ReactGridLayout = WidthProvider(RGL);
 
-      <ResizePanel direction="e" style={{ flexGrow: '1' }} >
-        <div className={cx('sidebar', 'withMargin', 'panel')}>
-            <span>
-        <DisplayLogo id = "editScreenLogo"logo = {{
-                            display: "inline-block",
-                            color: "#FF0000",
-                            fontSize: 12,
-                            backgroundColor: "#FF00FF", 
-                            borderRadius: 12, 
-                            borderColor: "#FF0000",
-                            borderWidth: 12,
-                            padding: 12,
-                            margin: 12,
-                            borderStyle: "solid",
-                            position: "center",
-                          }} logoText = "Text"/>
-        </span></div>
-      </ResizePanel>
-      <div className={cx('content', 'panel')}>content</div>
-      <ResizePanel direction="w" style={{ width: '400px' }} handleClass={style.customHandle} borderClass={style.customResizeBorder}>
-        <div className={cx('sidebar', 'panel')}>right panel<br /> with custom handle<br /> default 400px</div>
-      </ResizePanel>
+export default class testingScreen extends React.PureComponent {
+  static defaultProps = {
+    className: "layout",
+    items: 20,
+    rowHeight: 30,
+    onLayoutChange: function() {},
+    cols: 12
+  };
 
-    </div>
+  constructor(props) {
+    super(props);
 
-    <ResizePanel direction="n" style={{height: '200px'}}>
-      <div className={cx('footer', 'panel')}>
-        <div className={cx('footerArea')}>
-          <div className={cx('footerAreaContent')}>
-            <span>footer area, min height: 100px</span>
-          </div>
+    const layout = this.generateLayout();
+    this.state = { layout };
+  }
+
+  generateDOM() {
+    return _.map(_.range(this.props.items), function(i) {
+      return (
+        <div key={i}>
+          <span className="text">{i}</span>
         </div>
-        <div className={cx('footerBottomBar')}>
-          bottom bar
-        </div>
-      </div>
-    </ResizePanel>
-  </div>
-);
+      );
+    });
+  }
+
+  generateLayout() {
+    const p = this.props;
+    return _.map(new Array(p.items), function(item, i) {
+      const y = _.result(p, "y") || Math.ceil(Math.random() * 4) + 1;
+      return {
+        x: (i * 2) % 12,
+        y: Math.floor(i / 6) * y,
+        w: 2,
+        h: y,
+        i: i.toString()
+      };
+    });
+  }
+
+  onLayoutChange(layout) {
+    this.props.onLayoutChange(layout);
+  }
+
+  render() {
+    return (
+      <ReactGridLayout
+        layout={this.state.layout}
+        onLayoutChange={this.onLayoutChange}
+        {...this.props}
+      >
+        {this.generateDOM()}
+      </ReactGridLayout>
+    );
+  }
+}

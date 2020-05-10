@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
-import DisplayLogo from './DisplayLogo.js';
-import GologoloAppBarViewScreen from './GologoloNavBarViewScreen.js';
+import LogoTextBox from './LogoTextBox.js';
+import GologoloNavBar from './GologoloNavBar.js';
 import { Grid, Button } from '@material-ui/core';
 import { DeleteForever } from '@material-ui/icons';
 
@@ -46,7 +46,7 @@ class ViewLogoScreen extends Component {
 
                     return (
                         <div>
-                            <GologoloAppBarViewScreen/>
+                            <GologoloNavBar currentScreen = "View Screen"/>
                             <Grid
                             container
                             direction="row"
@@ -123,7 +123,7 @@ class ViewLogoScreen extends Component {
                                     </Grid>
                                 </Grid>
                                 <Grid item id = "viewScreenLogo">
-                                    <DisplayLogo logo = {data.logo} logoText = {data.logo.text}  />
+                                    <LogoTextBox styles = {data.logo} logoText = {data.logo.text}  />
                                 </Grid>
                             </Grid>
                         </div>

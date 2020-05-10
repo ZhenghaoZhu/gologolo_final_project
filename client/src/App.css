@@ -223,3 +223,9 @@ body {
   font-size: 32px;
   background-color: blue;
 }
+
+#createScreenLogoCanvas {
+  width: 800px;
+  height: 300px;
+  margin-left: 50px;
+}
