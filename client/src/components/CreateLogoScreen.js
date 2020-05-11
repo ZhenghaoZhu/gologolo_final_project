@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import { Link } from "react-router-dom";
 import LogoCanvas from './LogoCanvas.js';
 import GologoloNavBar from './GologoloNavBar.js';
 
@@ -111,7 +110,7 @@ const ADD_LOGO = gql`
                         onCompleted={() => this.props.history.push("/")}
                     >
                         {(addLogo, { loading, error }) => (
-                        <div className="container panel panel-default">
+                        <div className="container panel panel-default" id = "mainContainer">
                             <div className="leftbox">
                             <div className="panel-heading">
                                 <GologoloNavBar currentScreen = "Create Screen"/>

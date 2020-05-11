@@ -226,6 +226,31 @@ body {
 
 #createScreenLogoCanvas {
   width: 800px;
-  height: 300px;
+  height: 800px;
   margin-left: 50px;
+  background-color: rgb(210, 211, 211);
+  border-radius: 20px;
+}
+
+#logoCanvasAddTextBoxButton {
+  margin-bottom: 10px;
+  background-color: aliceblue;
+}
+
+#downloadLogoButton {
+  margin-bottom: 10px;
+  margin-left: 5px;
+  background-color: aliceblue;
+}
+
+#mainContainer {
+  margin-top: 20px;
+}
+
+#testRND {
+  background-color: red;
+}
+
+#stretchyDiv {
+  height : 800px;
 }

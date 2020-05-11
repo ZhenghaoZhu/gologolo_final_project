@@ -9,6 +9,7 @@
     "bootstrap": "^4.3.1",
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
+    "html2canvas": "^1.0.0-rc.5",
     "install": "^0.13.0",
     "material-ui-color-picker": "^3.5.0",
     "materialize-css": "^1.0.0",
@@ -22,6 +23,7 @@
     "react-materialize": "^3.8.3",
     "react-resizable": "^1.10.1",
     "react-resize-panel": "^0.3.5",
+    "react-rnd": "^10.1.10",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^2.1.8"
   },

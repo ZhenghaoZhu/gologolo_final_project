@@ -5,7 +5,6 @@
   .react-grid-item {
     transition: all 200ms ease;
     transition-property: left, top;
-    background-color: grey;
   }
   .react-grid-item.cssTransforms {
     transition-property: transform;
@@ -26,7 +25,7 @@
   }
   
   .react-grid-item.react-grid-placeholder {
-    background: red;
+    background: blue;
     opacity: 0.2;
     transition-duration: 100ms;
     z-index: 2;
