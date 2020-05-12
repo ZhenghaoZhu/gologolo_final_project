@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, TextField, Button, Avatar, Link as MaterialUILink } from '@material-ui/core';
+import { Grid, TextField, Button, Link as MaterialUILink } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 // THIS IS HOW WE DISPLAY THE LOGO, IN THIS COMPONENT
 class LoginScreen extends Component {

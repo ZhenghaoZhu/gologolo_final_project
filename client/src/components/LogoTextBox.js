@@ -5,25 +5,21 @@ import { Rnd } from 'react-rnd';
 class LogoTextBox extends Component {
     constructor(props) {
         super(props);
-
-        const rndStyle = {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "solid 1px #ddd",
-            background: "#f0f0f0"
-          };
+        
+        this.state = {
+            rndStyle : {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "solid 1px #ddd",
+                background: "#f0f0f0"
+              }
+        }
     }
     render() {
         return (
             <Rnd
-                style = {{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    border: "solid 1px #ddd",
-                    background: "#f0f0f0"
-                  }}
+                style = {this.state.rndStyle}
                 default = {{
                     x : this.props.style.xCoord,
                     y : this.props.style.yCoord,

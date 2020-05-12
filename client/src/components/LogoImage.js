@@ -17,7 +17,7 @@ class LogoImage extends Component {
                     justifyContent: "center",
                     border: "solid 1px #ddd",
                     background: "#f0f0f0"
-                  }}
+                }}
                 default = {{
                     x : this.props.style.xCoord,
                     y : this.props.style.yCoord,
@@ -25,7 +25,8 @@ class LogoImage extends Component {
                     height : 200
                 }}
             >
-                <img src = {this.props.style.source} />
+                <img src = {this.props.style.source} alt = "" crossOrigin = "anonymous" width = "50px" height = "40px"/>
+                {/* Do some state stuff with the width and height of Rnd and the width and height of img (same state, maybe?) */}
             </Rnd>
         )
     }
