@@ -15,6 +15,9 @@ class LogoTextBox extends Component {
                 background: "#f0f0f0"
               }
         }
+
+        console.log("IN Textbox")
+        console.log(this)
     }
     render() {
         return (
@@ -35,7 +38,7 @@ class LogoTextBox extends Component {
                 </div>
             </Rnd>
         )
-    }
+    } // TODO: Add x-coord, y-coord to LogoTextBox and LogoImage
 }
 
 export default LogoTextBox

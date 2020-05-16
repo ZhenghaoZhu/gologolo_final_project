@@ -6,6 +6,11 @@ class LogoImage extends Component {
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            width : "200px",
+            height : "200px"
+        }
     }
 
     render() {
@@ -21,15 +26,15 @@ class LogoImage extends Component {
                 default = {{
                     x : this.props.style.xCoord,
                     y : this.props.style.yCoord,
-                    width : 200,
-                    height : 200
+                    width : this.state.width,
+                    height : this.state.height
                 }}
             >
-                <img src = {this.props.style.source} alt = "" crossOrigin = "anonymous" width = "50px" height = "40px"/>
+                <img src = {this.props.style.source} alt = ""/>
                 {/* Do some state stuff with the width and height of Rnd and the width and height of img (same state, maybe?) */}
             </Rnd>
         )
-    }
+    } // TODO: Add x-coord, y-coord to LogoTextBox and LogoImage
     
 }
 
