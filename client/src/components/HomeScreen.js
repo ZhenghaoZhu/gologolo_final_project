@@ -15,10 +15,6 @@ const GET_LOGOS = gql`
   }
 `;
 
-const gridStyle = {
-    background: "#A0DB9E"
-}
-
 const compareDates = (ds1, ds2) => {
     let date1 = new Date(ds1);
     let date2 = new Date(ds2);
