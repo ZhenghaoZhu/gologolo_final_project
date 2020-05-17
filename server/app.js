@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var graphqlHTTP = require('express-graphql');
 var schema = require('./graphql/logoSchemas');
 var cors = require("cors");
-var proxy = require('html2canvas-proxy');
+var proxy = require('./node_modules/html2canvas-proxy/server');
 
 mongoose.connect('mongodb://localhost/node-graphql', { promiseLibrary: require('bluebird'), useNewUrlParser: true })
   .then(() =>  console.log('connection successful'))

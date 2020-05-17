@@ -3,6 +3,9 @@ import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import LogoCanvas from './LogoCanvas.js';
 import GologoloNavBar from './GologoloNavBar.js';
+import { TextField, Button } from '@material-ui/core';
+import CheckIcon from '@material-ui/icons/Check';
+import { TwitterPicker } from 'react-color';
 
 const ADD_LOGO = gql`
   mutation AddLogo(
@@ -38,244 +41,154 @@ const ADD_LOGO = gql`
                 constructor(props) {
                     super(props);
                     this.state = {
-                    text: "Change this Text",
-                    color: "#0012FF",
-                    fontSize: 30,
-                    borderColor: "#FF1200",
-                    backgroundColor: "#FFFF00", 
-                    borderRadius: 40,
-                    borderWidth: 30,
-                    padding: 15,
-                    margin: 15,
-                    whiteSpace: "pre",
+                        style : {
+                            borderColor: "#994735",
+                            backgroundColor: "#e5e5e5", 
+                            borderRadius: 20,
+                            borderWidth: 10,
+                            borderStyle: "solid",
+                            margin: 2,
+                            height: 750,
+                            width: 800
+                        }
                     };
+
+                    this.handleBorderWidthChange = this.handleBorderWidthChange.bind(this)
+
                 }
 
-                handleTextChange = (event) => {
-                    if (event.target.value.trim() === "") {
-                    this.setState({ text: event.target.value, whiteSpace: true });
-                    } else {
-                    this.setState({ text: event.target.value, whiteSpace: false });
-                    }
-                };
-
-                handleColorChange = (event) => {
-                    this.setState({ color: event.target.value });
-                };
-
                 handleBackgroundColorChange = (event) => {
-                    this.setState({ backgroundColor: event.target.value });
+                    const style = this.state.style
+                    style.backgroundColor = event.hex
+                    this.setState({ style });
                 };
 
                 handleBorderColorChange = (event) => {
-                    this.setState({ borderColor: event.target.value });
+                    const style = this.state.style
+                    style.borderColor = event.hex
+                    this.setState({ style });
                 };
 
                 handleBorderRadiusChange = (event) => {
-                    this.setState({ borderRadius: event.target.value });
+                    const style = this.state.style
+                    style.borderRadius = document.getElementById("borderRadiusInput").value + "px"
+                    this.setState({ style });
                 };
 
-                handleWidthChange = (event) => {
-                    this.setState({ borderWidth: event.target.value });
+                handleBorderWidthChange = (event) =>{
+                    const style = this.state.style
+                    style.borderWidth = document.getElementById("borderWidthInput").value + "px"
+                    this.setState({ style });
                 };
 
-                handlePaddingChange = (event) => {
-                    this.setState({ padding: event.target.value });
-                };
 
                 handleMarginChange = (event) => {
-                    this.setState({ margin: event.target.value });
-                };
-
-                handleFontSizeChange = (event) => {
-                    this.setState({ fontSize: event.target.value });
+                    const style = this.state.style
+                    style.margin = document.getElementById("marginInput").value + "px"
+                    this.setState({ style });
                 };
 
                 render() {
-                    const styles = {
-                    container: {
-                        color: this.state.color,
-                        fontSize: parseInt(this.state.fontSize),
-                        backgroundColor: this.state.backgroundColor, 
-                        borderRadius: parseInt(this.state.borderRadius), 
-                        borderColor: this.state.borderColor,
-                        borderWidth: parseInt(this.state.borderWidth),
-                        padding: parseInt(this.state.padding),
-                        margin: parseInt(this.state.margin)
-                    },
+                    console.log(this.state)
+                    const style = {
+                        borderColor: this.state.style.borderColor,
+                        backgroundColor: this.state.style.backgroundColor, 
+                        borderRadius: this.state.style.borderRadius,
+                        borderWidth: this.state.style.borderWidth,
+                        borderStyle: "solid",
+                        margin: this.state.style.margin,
+                        height: this.state.style.height,
+                        width: this.state.style.width
                     };
+                    console.log(style)
                     return (
-                    <Mutation
-                        mutation={ADD_LOGO}
-                        onCompleted={() => this.props.history.push("/")}
-                    >
-                        {(addLogo, { loading, error }) => (
-                        <div className="container panel panel-default" id = "mainContainer">
-                            <div className="leftbox">
+                    <div className="container panel panel-default" id = "mainContainer">
+                        <div className="leftbox">
                             <div className="panel-heading">
                                 <GologoloNavBar currentScreen = "Create Screen"/>
                             </div>
                             <div className="panel-body">
                                 <div className = "panel_with_displayed_logo">
-                                <form
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    addLogo({
-                                    variables: {
-                                        text: this.state.text,
-                                        color: this.state.color,
-                                        backgroundColor: this.state.backgroundColor,
-                                        borderColor: this.state.borderColor,
-                                        borderRadius: parseInt(this.state.borderRadius),
-                                        borderWidth: parseInt(this.state.borderWidth),
-                                        padding: parseInt(this.state.padding),
-                                        margin: parseInt(this.state.margin),
-                                        fontSize: parseInt(this.state.fontSize),
-                                        ms: String(Date.now())
-                                    },
-                                    });
-                                }}
-                                >
-                                <div className="form-group">
-                                    <label htmlFor="text">Text:</label>
-                                    <input
-                                    type="text"
-                                    className="form-control"
-                                    name="text"
-                                    placeholder="Text"
-                                    defaultValue={this.state.text}
-                                    onChange={this.handleTextChange}
-                                    required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="color">Color:</label>
-                                    <input
-                                    type="color"
-                                    className="form-control"
-                                    name="color"
-                                    placeholder="Color"
-                                    defaultValue={this.state.color}
-                                    onChange={this.handleColorChange}
-                                    />
-                                </div>
+                                    <form
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    >
 
-                                <div className="form-group">
-                                    <label htmlFor="fontSize">Font Size:</label>
-                                    <input
-                                    type="number"
-                                    min="2"
-                                    max="144"
-                                    className="form-control"
-                                    name="fontSize"
-                                    placeholder="Font Size"
-                                    defaultValue={this.state.fontSize}
-                                    onChange={this.handleFontSizeChange}
-                                    />
-                                </div>
-
-                                <div className="form-group">
                                     <label htmlFor="color"> Background Color:</label>
-                                    <input
-                                    type="color"
-                                    className="form-control"
-                                    name="backgroundColor"
-                                    placeholder="Background Color"
-                                    defaultValue={this.state.backgroundColor}
-                                    onChange={this.handleBackgroundColorChange}
-                                    />
-                                </div>
+                                        <TwitterPicker onChange = {this.handleBackgroundColorChange}/>  
 
-                                <div className="form-group">
-                                    <label htmlFor="color"> Border Color:</label>
-                                    <input
-                                    type="color"
-                                    className="form-control"
-                                    name="borderColor"
-                                    placeholder="Border Color"
-                                    defaultValue={this.state.borderColor}
-                                    onChange={this.handleBorderColorChange}
-                                    />
-                                </div>
+                                    <label htmlFor="color" style = {{marginTop : 20}}> Border Color:</label>
+                                        <TwitterPicker onChange = {this.handleBorderColorChange}/>
 
-                                <div className="form-group">
-                                    <label> Border Radius:</label>
+                                    <br></br>
+                                    
+                                    <label>Border Radius:</label>
                                     <input
+                                    id="borderRadiusInput"
                                     type="number"
                                     min="2"
                                     max="144"
                                     className="form-control"
                                     name="borderRadius"
                                     placeholder="Border Radius"
-                                    defaultValue={this.state.borderRadius}
+                                    defaultValue={this.state.style.borderRadius}
                                     onChange={this.handleBorderRadiusChange}
                                     />
-                                </div>
 
-                                <div className="form-group">
+                                    <br></br>
+
                                     <label>Border Thickness:</label>
                                     <input
+                                    id="borderWidthInput"
                                     type="number"
                                     min="2"
                                     max="144"
                                     className="form-control"
                                     name="borderWidth"
                                     placeholder="Border Width"
-                                    defaultValue={this.state.borderWidth}
-                                    onChange={this.handleWidthChange}
+                                    defaultValue={this.state.style.borderWidth}
+                                    onChange={this.handleBorderWidthChange}
                                     />
-                                </div>
 
-                                <div className="form-group">
-                                    <label>Padding:</label>
-                                    <input
-                                    type="number"
-                                    min="2"
-                                    max="144"
-                                    className="form-control"
-                                    name="Padding"
-                                    placeholder="Padding"
-                                    defaultValue={this.state.padding}
-                                    onChange={this.handlePaddingChange}
-                                    />
-                                </div>
+                                    <br></br>
 
-                                <div className="form-group">
                                     <label>Margin:</label>
                                     <input
+                                    id="marginInput"
                                     type="number"
                                     min="2"
                                     max="144"
                                     className="form-control"
-                                    name="margin"
-                                    placeholder="Border Margin"
-                                    defaultValue={this.state.margin}
+                                    name="borderWidth"
+                                    placeholder="Margin"
+                                    defaultValue={this.state.style.margin}
                                     onChange={this.handleMarginChange}
                                     />
-                                </div>
 
-                                <button
-                                    type="submit"
-                                    className="btn btn-success"
-                                    disabled={this.state.whiteSpace}
-                                >
-                                    Submit
-                                </button>
-                                </form>
-                                <div id = "createScreenLogoCanvas">
-                                    <LogoCanvas styles = {this.state} logoText = {this.state.text}></LogoCanvas>
+                                    <br></br>
+
+                                    <Button
+                                        fullWidth
+                                        type="submit"
+                                        className="btn btn-success"
+                                        disabled={this.state.whiteSpace}
+                                        style = {{marginTop : 20, backgroundColor : "#424242"}}
+                                        startIcon = { <CheckIcon/> }
+                                    >
+                                        Submit
+                                    </Button>
+                                    </form>
+                                    <div id = "createScreenLogoCanvas">
+                                        <LogoCanvas style = {style}></LogoCanvas>
+                                    </div>
                                 </div>
-                                </div>
-                                {loading && <p>Loading...</p>}
-                                {error && <p>Error. Please try again</p>}
                             </div>
-                            </div>
-                            
                         </div>
-                        )}
-                    </Mutation>
+                        
+                    </div>
                     );
                 }
-                }
+            }
 
 export default CreateLogoScreen;

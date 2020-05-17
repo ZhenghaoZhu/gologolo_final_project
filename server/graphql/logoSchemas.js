@@ -209,3 +209,6 @@ var mutation = new GraphQLObjectType({
 });
 
 module.exports = new GraphQLSchema({ query: queryType, mutation: mutation });
+
+
+// TODO: Update logoSchema with appropriate structures for LogoCanvas, LogoTextBox, and LogoImage
