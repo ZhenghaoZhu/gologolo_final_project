@@ -13,6 +13,10 @@ class LogoImage extends Component {
         }
     }
 
+    onImageResize() {
+        console.log(this)
+    }
+
     render() {
         return (
             <Rnd
@@ -27,15 +31,25 @@ class LogoImage extends Component {
                     x : this.props.style.xCoord,
                     y : this.props.style.yCoord,
                     width : this.state.width,
-                    height : this.state.height
+                    height : this.state.height,
                 }}
+                onResize={(e, direction, ref, delta, position) => {
+                    this.setState({
+                      width: ref.offsetWidth,
+                      height: ref.offsetHeight,
+                      ...position,
+                    });
+                  }}
             >
-                <img src = {this.props.style.source} alt = ""/>
+                <img  src = {this.props.style.source} alt = "" width = {this.state.width} height = {this.state.height}/>
                 {/* Do some state stuff with the width and height of Rnd and the width and height of img (same state, maybe?) */}
             </Rnd>
         )
-    } // TODO: Add x-coord, y-coord to LogoTextBox and LogoImage
+    }
     
 }
 
 export default LogoImage
+
+// TODO: Add grid-like dragging
+// TODO: Limit draggint to parent (LogoCanvas)

@@ -30,15 +30,13 @@ class LogoTextBox extends Component {
                     height : 200
                 }}
             >
-                <div className="displayedLogo" id = "logoTextDiv"
-                    style={ this.props.style }
-                    contentEditable='true'
-                    >
-                    {this.props.style.text}
-                </div>
+                <div className="displayedLogo" id = "logoTextDiv" style = { this.props.style } contentEditable = {true}>{this.props.style.text}</div>
             </Rnd>
         )
-    } // TODO: Add x-coord, y-coord to LogoTextBox and LogoImage
+    } 
 }
 
 export default LogoTextBox
+
+// TODO: Add grid-like dragging
+// TODO: Limit draggint to parent (LogoCanvas)
