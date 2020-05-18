@@ -33,8 +33,10 @@ class LoginScreen extends Component {
                     </Grid>
                     <Grid item>
                         <Button id = "loginScreenLogInButton" 
-                                variant = "contained">
-                            <Link to={`/`} id = "loginButtonText">Log In</Link>
+                                variant = "contained"
+                                component = {Link}
+                                to = "/">
+                            Log In
                         </Button>
                     </Grid>
                     <Grid item>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Rnd } from 'react-rnd';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 
 // THIS IS HOW WE DISPLAY THE LOGO, IN THIS COMPONENT
 class LogoImage extends Component {
@@ -13,20 +15,17 @@ class LogoImage extends Component {
         }
     }
 
-    onImageResize() {
-        console.log(this)
+    closeImageButtonClick = () => {
+        this.props.handleCloseImageCallback(this.props.style.name)
     }
 
     render() {
         return (
             <Rnd
                 style = {{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    border: "solid 1px #ddd",
-                    background: "#f0f0f0"
+                    background: "#f0f0f0",
                 }}
+                bounds=".logoTextBoxAndImageBounds"
                 default = {{
                     x : this.props.style.xCoord,
                     y : this.props.style.yCoord,
@@ -40,9 +39,11 @@ class LogoImage extends Component {
                       ...position,
                     });
                   }}
+                resizeGrid={[20, 20]}
+                dragGrid={[20, 20]}
             >
                 <img  src = {this.props.style.source} alt = "" width = {this.state.width} height = {this.state.height}/>
-                {/* Do some state stuff with the width and height of Rnd and the width and height of img (same state, maybe?) */}
+                <HighlightOffIcon onClick = {this.closeImageButtonClick}style = {{position : "absolute", top : "0px", right : "0px", color : "#616161"}}/>
             </Rnd>
         )
     }
@@ -51,5 +52,4 @@ class LogoImage extends Component {
 
 export default LogoImage
 
-// TODO: Add grid-like dragging
-// TODO: Limit draggint to parent (LogoCanvas)
+// TODO: Save x-coord and y-coord in state

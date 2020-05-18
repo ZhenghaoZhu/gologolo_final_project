@@ -40,8 +40,8 @@ class HomeScreen extends Component {
                     return (
                         <div id = "navBarAndMainDiv">
                             <div id = "homeScreenNavBar">
-                                <Button variant = "contained" id = "homeLogOutButton">
-                                    <Link to={`/login`}  id = "homeToLogInScreenLink">Log Out</Link>
+                                <Button variant = "contained" id = "homeLogOutButton" component = {Link} to = "/login">
+                                    Log Out
                                 </Button>
                             </div>
                             <Grid container xs = {12}>
@@ -51,8 +51,8 @@ class HomeScreen extends Component {
                                             <div id="home_banner_container">
                                                 Gologolo
                                             </div>
-                                            <Button variant = "contained" id = "homeToCreateScreenButton">
-                                                <Link to={`/create`}  id = "homeToCreateScreenButtonLink">Create a new logo</Link>
+                                            <Button variant = "contained" id = "homeToCreateScreenButton" component = {Link} to = "/create">
+                                                Create a new logo
                                             </Button>
                                         </div>
                                     </Grid>
