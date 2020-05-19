@@ -19,8 +19,8 @@ class LogoTextBox extends Component {
                 text: this.props.style.text,
                 color: this.props.style.color,
                 fontSize: this.props.style.fontSize,
-                background : this.props.style.background,
-                border : this.props.style.border,
+                background : "transparent",
+                border : "none",
                 width : this.props.style.width,
                 height : this.props.style.height,
                 xCoord: this.props.style.xCoord,
@@ -34,7 +34,6 @@ class LogoTextBox extends Component {
     }
 
     closeTextBoxButtonClick = () => {
-        console.log(this.props.style.name)
         this.props.handleCloseTextBoxCallback(this.props.style.name)
     }
 

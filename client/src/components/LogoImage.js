@@ -30,18 +30,15 @@ class LogoImage extends Component {
                 }}
                 bounds=".logoTextBoxAndImageBounds"
                 default = {this.state}
-                onResize={(ref) => {
+                onResize={(e, direction, ref, delta, position) => {
                     this.setState({
                       width: ref.offsetWidth,
                       height: ref.offsetHeight,
-                    });
-                  }}
-                  onDrag={(position) => {
-                    this.setState({
                       xCoord: position.x,
                       yCoord: position.y
                     });
                   }}
+                onDragStop={(e, d) => { this.setState({ x: d.x, y: d.y }) }}
                 resizeGrid={[20, 20]}
                 dragGrid={[20, 20]}
             >

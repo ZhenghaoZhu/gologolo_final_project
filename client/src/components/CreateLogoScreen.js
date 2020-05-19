@@ -50,24 +50,24 @@ class CreateLogoScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            style : {
-                backgroundColor: "#e5e5e5", 
-                borderColor: "#4a5257",
-                borderRadius: 20,
-                borderWidth: 10,
-                borderStyle: "solid",
-                margin: 2,
-                height: 750,
-                width: 800,
-                position : "absolute",
-                textBoxFontColor : "#000000",
-                textBoxFontSize : 16
-            },
-            currentImageLink : "", // Dont put in schema
+            backgroundColor: "#e5e5e5", 
+            borderColor: "#4a5257",
+            borderRadius: 20,
+            borderWidth: 10,
+            borderStyle: "solid", // Don't put in query
+            margin: 2,
+            height: 750,
+            width: 800,
+            position : "absolute", // Don't put in query
+            textBoxFontColor : "#000000",
+            textBoxFontSize : 16,
+
+            currentImageLink : "", // Don't put in schema
             textBoxCounter : 3,
             imageCounter : 4,
             bugCounter : 0,
-            imageErrorAlert : false, // Dont put in schema
+            imageErrorAlert : false, // Don't put in schema
+
             textBoxList : {
                 "textBox1" :{
                     name : "textBox1",
@@ -141,100 +141,95 @@ class CreateLogoScreen extends Component {
     }
 
     handleBackgroundColorChange = (event) => {
-        const style = this.state.style
-        style.backgroundColor = event.hex
-        this.setState({ style });
+        this.setState({ backgroundColor : event.hex });
     };
 
     handleBorderColorChange = (event) => {
-        const style = this.state.style
-        style.borderColor = event.hex
-        this.setState({ style });
+        this.setState({ borderColor : event.hex });
     };
 
     handleBorderRadiusChange = (event) => {
         event.preventDefault();
-        const style = this.state.style
-        style.borderRadius = event.target.value
-        if(style.borderRadius > 50){
-            style.borderRadius = 50
+        var updateBorderRadius = this.state.borderRadius
+        updateBorderRadius = event.target.value
+        if(updateBorderRadius > 50){
+            updateBorderRadius = 50
         }
-        if(style.borderRadius < 1) {
-            style.borderRadius  = 1
+        if(updateBorderRadius < 1) {
+            updateBorderRadius  = 1
         }
-        this.setState({ style });
+        this.setState({ borderRadius : updateBorderRadius });
     };
 
     handleBorderWidthChange = (event) =>{
         event.preventDefault();
-        const style = this.state.style
-        style.borderWidth = event.target.value
-        if(style.borderWidth > 50){
-            style.borderWidth = 50
+        var updateBorderWidth = this.state.borderWidth
+        updateBorderWidth = event.target.value
+        if(updateBorderWidth > 50){
+            updateBorderWidth = 50
         }
-        if(style.borderWidth < 1) {
-            style.borderWidth  = 1
+        if(updateBorderWidth < 1) {
+            updateBorderWidth  = 1
         }
-        this.setState({ style });
+        this.setState({ borderWidth : updateBorderWidth });
     };
 
 
     handleMarginChange = (event) => {
         event.preventDefault();
-        const style = this.state.style
-        style.margin = event.target.value
-        if(style.margin > 50){
-            style.margin = 50
+        var updateMargin = this.state.margin
+        updateMargin = event.target.value
+        if(updateMargin > 50){
+            updateMargin = 50
         }
-        if(style.margin < 1) {
-            style.margin  = 1
+        if(updateMargin < 1) {
+            updateMargin  = 1
         }
-        this.setState({ style });
+        this.setState({ margin : updateMargin });
     };
 
     handleTextBoxFontColorChange = (event) => {
-        const style = this.state.style
-        style.textBoxFontColor = event.hex
-        this.setState({ style });
+        console.log(event.hex)
+        this.setState({ textBoxFontColor : event.hex });
     }
 
     handleTextBoxFontSizeChange = (event) => {
         event.preventDefault();
-        const style = this.state.style
-        style.textBoxFontSize = event.target.value
-        if(style.textBoxFontSize > 100){
-            style.textBoxFontSize = 100
+        var updatedTextBoxFontSize = this.state.textBoxFontSize
+        updatedTextBoxFontSize = event.target.value
+        if(updatedTextBoxFontSize > 100){
+            updatedTextBoxFontSize = 100
         }
-        if(style.textBoxFontSize < 1) {
-            style.textBoxFontSize  = 1
+        if(updatedTextBoxFontSize < 1) {
+            updatedTextBoxFontSize  = 1
         }
-        this.setState({ style });
+        this.setState({ textBoxFontSize : updatedTextBoxFontSize });
     }
 
     handleCanvasWidthChange = (event) => {
         event.preventDefault();
-        const style = this.state.style
-        style.width = event.target.value
-        if(style.width > 1000){
-            style.width = 1000
+        var updatedWidth = this.state.width
+        updatedWidth = event.target.value
+        if(updatedWidth > 1000){
+            updatedWidth = 1000
         }
-        if(style.width < 100) {
-            style.width  = 100
+        if(updatedWidth < 100) {
+            updatedWidth  = 100
         }
-        this.setState({ style });
+        this.setState({ width : updatedWidth });
     }
 
     handleCanvasHeightChange = (event) => {
         event.preventDefault();
-        const style = this.state.style
-        style.height = event.target.value
-        if(style.height > 1000){
-            style.height = 1000
+        var updatedHeight = this.state.height
+        updatedHeight = event.target.value
+        if(updatedHeight > 1000){
+            updatedHeight = 1000
         }
-        if(style.height < 100) {
-            style.height  = 100
+        if(updatedHeight < 100) {
+            updatedHeight  = 100
         }
-        this.setState({ style });
+        this.setState({ height : updatedHeight });
     }
 
     createTextBox = (textBoxListElement) =>{
@@ -268,8 +263,8 @@ class CreateLogoScreen extends Component {
 		newtextBoxList[newTextBoxObjectName] = {
 			name : newTextBoxObjectName,
 			text: "Example Text",
-			color: this.state.style.textBoxFontColor,
-			fontSize: parseInt(this.state.style.textBoxFontSize) + "px",
+			color: this.state.textBoxFontColor,
+			fontSize: parseInt(this.state.textBoxFontSize) + "px",
 			background : "transparent",
 			border : "none",
             width : 250,
@@ -340,17 +335,17 @@ class CreateLogoScreen extends Component {
 
     render() {
         const style = {
-            borderColor: this.state.style.borderColor,
-            backgroundColor: this.state.style.backgroundColor, 
-            borderRadius: parseInt(this.state.style.borderRadius) + "px",
-            borderWidth: parseInt(this.state.style.borderWidth) + "px",
+            borderColor: this.state.borderColor,
+            backgroundColor: this.state.backgroundColor, 
+            borderRadius: parseInt(this.state.borderRadius) + "px",
+            borderWidth: parseInt(this.state.borderWidth) + "px",
             borderStyle: "solid",
-            margin: parseInt(this.state.style.margin) + "px",
-            height: parseInt(this.state.style.height) + "px",
-            width: parseInt(this.state.style.width) + "px",
+            margin: parseInt(this.state.margin) + "px",
+            height: parseInt(this.state.height) + "px",
+            width: parseInt(this.state.width) + "px",
             position : "absolute",
-            textBoxFontColor : this.state.style.textBoxFontColor,
-            textBoxFontSize : parseInt(this.state.style.textBoxFontSize) + "px"
+            textBoxFontColor : this.state.textBoxFontColor,
+            textBoxFontSize : parseInt(this.state.textBoxFontSize) + "px"
         };
         return (
         <div className="container panel panel-default" id = "mainContainer">
@@ -372,13 +367,13 @@ class CreateLogoScreen extends Component {
                         <br></br>
                         
                         <TextField label = "Border Radius"
-                                    value = {this.state.style.borderRadius}
+                                    value = {this.state.borderRadius}
                                     variant = "outlined" 
                                     onChange = {this.handleBorderRadiusChange} 
                                     style = {{marginTop : "20px"}}
                                     type = "number"
                                     InputProps={{ inputProps: { min: 1, max: 50, step : 2 } }}
-                                    error ={this.state.style.borderRadius > 0 && this.state.style.borderRadius < 51 ? false : true }
+                                    error ={this.state.borderRadius > 0 && this.state.borderRadius < 51 ? false : true }
                                     helperText = "Value should be between 1 - 50 (Inclusive)"
                                     InputProps={{
                                     startAdornment: (
@@ -392,13 +387,13 @@ class CreateLogoScreen extends Component {
                         <br></br>
 
                         <TextField label = "Border Width"
-                                    value = {this.state.style.borderWidth}
+                                    value = {this.state.borderWidth}
                                     variant = "outlined" 
                                     onChange = {this.handleBorderWidthChange} 
                                     style = {{marginTop : "30px"}}
                                     type = "number"
                                     InputProps={{ inputProps: { min: 1, max: 50, step : 2 } }}
-                                    error ={this.state.style.borderWidth > 0 && this.state.style.borderWidth < 51 ? false : true }
+                                    error ={this.state.borderWidth > 0 && this.state.borderWidth < 51 ? false : true }
                                     helperText = "Value should be between 1 - 50 (Inclusive)"
                                     InputProps={{
                                     startAdornment: (
@@ -412,13 +407,13 @@ class CreateLogoScreen extends Component {
                         <br></br>
 
                         <TextField label = "Margin"
-                                    value = {this.state.style.margin}
+                                    value = {this.state.margin}
                                     variant = "outlined" 
                                     onChange = {this.handleMarginChange} 
                                     style = {{marginTop : "30px"}}
                                     type = "number"
                                     InputProps={{ inputProps: { min: 0, max: 50 } }}
-                                    error ={this.state.style.margin > 0 && this.state.style.margin < 51 ? false : true }
+                                    error ={this.state.margin > 0 && this.state.margin < 51 ? false : true }
                                     helperText = "Value should be between 1 - 50 (Inclusive)"
                                     InputProps={{
                                     startAdornment: (
@@ -435,7 +430,6 @@ class CreateLogoScreen extends Component {
                             fullWidth
                             type="submit"
                             className="btn btn-success"
-                            disabled={this.state.whiteSpace}
                             style = {{marginTop : 20, backgroundColor : "#1976d2"}}
                             startIcon = { <SaveOutlinedIcon/> }
                         >
@@ -480,13 +474,13 @@ class CreateLogoScreen extends Component {
                         <br></br>
                         
                         <TextField label = "Text Box Font Size"
-                                    value = {this.state.style.textBoxFontSize}
+                                    value = {this.state.textBoxFontSize}
                                     variant = "outlined" 
                                     onChange = {this.handleTextBoxFontSizeChange} 
                                     style = {{marginTop : "20px"}}
                                     type = "number"
                                     InputProps={{ inputProps: { min: 1, max: 100, step : 2 } }}
-                                    error ={this.state.style.textBoxFontSize > 0 && this.state.style.textBoxFontSize < 101 ? false : true }
+                                    error ={this.state.textBoxFontSize > 0 && this.state.textBoxFontSize < 101 ? false : true }
                                     helperText = "Value should be between 1 - 100 (Inclusive)"
                                     InputProps={{
                                     startAdornment: (
@@ -500,13 +494,13 @@ class CreateLogoScreen extends Component {
                         <hr style = {{borderStyle : "solid", borderColor : "black"}}/>
                         
                         <TextField label = "Canvas Width"
-                                    value = {this.state.style.width}
+                                    value = {this.state.width}
                                     variant = "outlined" 
                                     onChange = {this.handleCanvasWidthChange} 
                                     style = {{marginTop : "20px"}}
                                     type = "number"
                                     InputProps={{ inputProps: { min: 100, max: 1000, step : 5 } }}
-                                    error ={this.state.style.width > 99 && this.state.style.width < 1001 ? false : true }
+                                    error ={this.state.width > 99 && this.state.width < 1001 ? false : true }
                                     helperText = "Value should be between 100 - 1000 (Inclusive)"
                                     InputProps={{
                                     startAdornment: (
@@ -520,13 +514,13 @@ class CreateLogoScreen extends Component {
                         <br/>
 
                         <TextField label = "Canvas Height"
-                                    value = {this.state.style.height}
+                                    value = {this.state.height}
                                     variant = "outlined" 
                                     onChange = {this.handleCanvasHeightChange} 
                                     style = {{marginTop : "20px"}}
                                     type = "number"
                                     InputProps={{ inputProps: { min: 100, max: 1000, step : 5 } }}
-                                    error ={this.state.style.height > 99 && this.state.style.height < 1001 ? false : true }
+                                    error ={this.state.height > 99 && this.state.   height < 1001 ? false : true }
                                     helperText = "Value should be between 100 - 1000 (Inclusive)"
                                     InputProps={{
                                     startAdornment: (
