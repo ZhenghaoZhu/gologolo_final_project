@@ -35,7 +35,7 @@ class LogoTextBox extends Component {
                 default = {{
                     x : this.props.style.xCoord,
                     y : this.props.style.yCoord,
-                    width : 130,
+                    width : 200,
                     height : 50
                 }}
                 resizeGrid={[20, 20]}

@@ -8,6 +8,7 @@ var GraphQLString = require('graphql').GraphQLString;
 var GraphQLInt = require('graphql').GraphQLInt;
 var GraphQLDate = require('graphql-date');
 var LogoModel = require('../models/Logo');
+let LogoCanvasStyleModel = require('../models/logoCanvasStyle');
 
 var logoType = new GraphQLObjectType({
     name: 'logo',
@@ -53,6 +54,50 @@ var logoType = new GraphQLObjectType({
     }
 });
 
+var logoCanvasStyleType = new GraphQLObjectType({ // Query in create/edit LogoScreen
+    name: 'logoCanvasStyle',
+    fields: function () {
+        return {
+            _id: {
+                type: GraphQLString
+            },
+            backgroundColor : {
+                type : GraphQLString
+            },
+            borderColor : {
+                type : GraphQLString
+            },
+            borderRadius : {
+                type : GraphQLInt
+            },
+            borderWidth : {
+                type : GraphQLInt
+            },
+            borderStyle : {
+                type : GraphQLString
+            },
+            margin : {
+                type : GraphQLInt
+            },
+            height : {
+                type : GraphQLInt
+            },
+            width : {
+                type : GraphQLInt
+            },
+            textBoxFontColor : {
+                type : GraphQLString
+            },
+            textBoxFontSize : {
+                type : GraphQLInt
+            },
+            lastUpdate: {
+                type: GraphQLDate
+            }
+        }
+    }
+});
+
 var queryType = new GraphQLObjectType({
     name: 'Query',
     fields: function () {
@@ -81,6 +126,32 @@ var queryType = new GraphQLObjectType({
                         throw new Error('Error')
                     }
                     return logoDetails
+                }
+            },
+            logoCanvasStyles: {
+                type: new GraphQLList(logoCanvasStyleType),
+                resolve: function () {
+                    const logoCanvasStyles = LogoCanvasStyleModel.find().exec()
+                    if (!logoCanvasStyles) {
+                        throw new Error('Error')
+                    }
+                    return logoCanvasStyles
+                }
+            },
+            logoCanvasStyle: {
+                type: logoCanvasStyleType,
+                args: {
+                    id: {
+                        name: '_id',
+                        type: GraphQLString
+                    }
+                },
+                resolve: function (root, params) {
+                    const logoCanvasStyles = LogoCanvasStyleModel.findById(params.id).exec()
+                    if (!logoCanvasStyles) {
+                        throw new Error('Error')
+                    }
+                    return logoCanvasStyles
                 }
             }
         }
@@ -203,7 +274,122 @@ var mutation = new GraphQLObjectType({
                     }
                     return remLogo;
                 }
-            }
+            },
+            addLogoCanvasStyle: {
+                type: logoCanvasStyleType,
+                args: {
+                    backgroundColor : {
+                        type : new GraphQLNonNull(GraphQLString) 
+                    },
+                    borderColor : {
+                        type : new GraphQLNonNull(GraphQLString)
+                    },
+                    borderRadius : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    borderWidth : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    borderStyle : {
+                        type : new GraphQLNonNull(GraphQLString)
+                    },
+                    margin : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    height : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    width : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    textBoxFontColor : {
+                        type : new GraphQLNonNull(GraphQLString)
+                    },
+                    textBoxFontSize : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    }
+                },
+                resolve: function (root, params) {
+                    const logoCanvasStyleModel = new LogoCanvasStyleModel(params);
+                    const newLogoCanvasStyle = logoCanvasStyleModel.save();
+                    if (!newLogoCanvasStyle) {
+                        throw new Error('Error');
+                    }
+                    return newLogoCanvasStyle
+                }
+            },
+
+            updateLogoCanvasStyle: {
+                type: logoCanvasStyleType,
+                args: {
+                    id: {
+                        name: 'id',
+                        type: new GraphQLNonNull(GraphQLString)
+                    },
+                    backgroundColor : {
+                        type : new GraphQLNonNull(GraphQLString) 
+                    },
+                    borderColor : {
+                        type : new GraphQLNonNull(GraphQLString)
+                    },
+                    borderRadius : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    borderWidth : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    borderStyle : {
+                        type : new GraphQLNonNull(GraphQLString)
+                    },
+                    margin : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    height : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    width : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    },
+                    textBoxFontColor : {
+                        type : new GraphQLNonNull(GraphQLString)
+                    },
+                    textBoxFontSize : {
+                        type : new GraphQLNonNull(GraphQLInt)
+                    }
+                },
+                resolve(root, params) {
+                    return LogoCanvasStyleModel.findByIdAndUpdate(params.id, { 
+                            backgroundColor : params.backgroundColor,
+                            borderColor : params.borderColor,
+                            borderRadius : params.borderRadius,
+                            borderWidth : params.borderWidth,
+                            borderStyle : params.borderStyle,
+                            margin : params.margin,
+                            height : params.height,
+                            width : params.width,
+                            textBoxFontColor : params.textBoxFontColor,
+                            textBoxFontSize : params.textBoxFontSize,
+                            lastUpdate: new Date(),
+                        }, function (err) {
+                        if (err) return next(err);
+                    });
+                }
+            },
+            removeLogoCanvasStyle: {
+                type: logoCanvasStyleType,
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLString)
+                    }
+                },
+                resolve(root, params) {
+                    const remLogoCanvasStyle = LogoCanvasStyleModel.findByIdAndRemove(params.id).exec();
+                    if (!remLogoCanvasStyle) {
+                        throw new Error('Error')
+                    }
+                    return remLogoCanvasStyle;
+                }
+            },
         }
     }
 });

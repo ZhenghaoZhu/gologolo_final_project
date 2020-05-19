@@ -9,7 +9,6 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import ImageIcon from '@material-ui/icons/Image';
 import download from 'downloadjs';
 import CloseIcon from '@material-ui/icons/Close';
-import { Rnd } from 'react-rnd';
 
 export default class LogoCanvas extends React.PureComponent {
   
@@ -17,11 +16,11 @@ export default class LogoCanvas extends React.PureComponent {
 	  super(props);
   
 	  this.state = {
-		currentImageLink : "",
+		currentImageLink : "", // Dont put in schema
 		textBoxCounter : 3,
 		imageCounter : 4,
 		bugCounter : 0,
-		imageErrorAlert : false,
+		imageErrorAlert : false, // Dont put in schema
 		textBoxList : {
 			"textBox1" :{
 				name : "textBox1",
@@ -58,24 +57,32 @@ export default class LogoCanvas extends React.PureComponent {
 			"image1" : {
 				name : "image1",
 				source : "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2002&q=80",
+				width : 200,
+            	height : 200,
 				xCoord : 400,
 				yCoord : 400,
 			},
 			"image2" : {
 				name : "image2",
 				source : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Lillium_Stamens.jpg/800px-Lillium_Stamens.jpg",
+				width : 200,
+            	height : 200,
 				xCoord : 200,
 				yCoord : 200,
 			},
 			"image3" : {
 				name : "image3",
 				source : "https://upload.wikimedia.org/wikipedia/commons/4/4d/Bees_Collecting_Pollen_cropped.jpg",
+				width : 200,
+            	height : 200,
 				xCoord : 100,
 				yCoord : 100,
 			},
 			"image4" : {
 				name : "image4",
 				source : "https://upload.wikimedia.org/wikipedia/commons/e/eb/Ash_Tree_-_geograph.org.uk_-_590710.jpg",
+				width : 200,
+            	height : 200,
 				xCoord : 150,
 				yCoord : 150,
 			}
@@ -119,8 +126,10 @@ export default class LogoCanvas extends React.PureComponent {
 			fontSize: parseInt(this.props.styles.textBoxFontSize) + "px",
 			background : "transparent",
 			border : "none",
-			xCoord: 350,
-			yCoord: 350
+			width : 130,
+            height : 50,
+			xCoord: 450,
+			yCoord: 650
 		  }
 		this.setState({
 			textBoxList : newtextBoxList,
@@ -136,7 +145,9 @@ export default class LogoCanvas extends React.PureComponent {
 			const newImageList = this.state.imageList;
 			newImageList[newImageListElementName] = {
 				name : newImageListElementName, 
-				source : this.state.currentImageLink, 
+				source : this.state.currentImageLink,
+				width : 200,
+				height : 200, 
 				xCoord : 550, 
 				yCoord : 20
 			}
