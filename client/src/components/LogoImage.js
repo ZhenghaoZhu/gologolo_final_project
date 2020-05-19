@@ -22,6 +22,7 @@ class LogoImage extends Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <Rnd
                 style = {{
@@ -29,14 +30,18 @@ class LogoImage extends Component {
                 }}
                 bounds=".logoTextBoxAndImageBounds"
                 default = {this.state}
-                onResize={(e, direction, ref, delta, position) => {
+                onResize={(ref) => {
                     this.setState({
                       width: ref.offsetWidth,
                       height: ref.offsetHeight,
-                      ...position,
                     });
                   }}
-                onDragStop={(e, d) => { this.setState({ x: d.x, y: d.y }) }}
+                  onDrag={(position) => {
+                    this.setState({
+                      xCoord: position.x,
+                      yCoord: position.y
+                    });
+                  }}
                 resizeGrid={[20, 20]}
                 dragGrid={[20, 20]}
             >
