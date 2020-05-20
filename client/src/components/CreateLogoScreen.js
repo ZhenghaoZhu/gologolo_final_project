@@ -4,6 +4,7 @@ import { Mutation } from "react-apollo";
 import LogoCanvas from './LogoCanvas.js';
 import GologoloNavBar from './GologoloNavBar.js';
 import { TextField, Button, InputAdornment } from '@material-ui/core';
+import _ from "lodash";
 import { TwitterPicker } from 'react-color';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
@@ -17,29 +18,35 @@ import * as html2Canvas from 'html2canvas';
 import download from 'downloadjs';
 
 const ADD_LOGO = gql`
-  mutation AddLogo(
-    $text: String!
-    $color: String!
-    $fontSize: Int!
+  mutation addLogo(
     $backgroundColor: String!
     $borderColor: String!
     $borderRadius: Int!
     $borderWidth: Int!
-    $padding: Int!,
     $margin: Int!,
-    $ms: String!
+    $height: Int!,
+    $width: Int!,
+    $border : String!,
+    $position : String!,
+    $textBoxFontColor : String!,
+    $textBoxFontSize : Int!,
+    $textBoxList : [logoTextBoxInput]!,
+    $imageList : [logoImageInput]!
   ) {
     addLogo(
-      text: $text,
-      color: $color,
-      fontSize: $fontSize,
       backgroundColor: $backgroundColor,
       borderColor: $borderColor,
       borderRadius: $borderRadius,
       borderWidth: $borderWidth,
-      padding: $padding,
       margin: $margin,
-      ms : $ms
+      height : $height,
+      width : $width,
+      border : $border,
+      position : $position,
+      textBoxFontColor : $textBoxFontColor,
+      textBoxFontSize : $textBoxFontSize,
+      textBoxList : $textBoxList,
+      imageList : $imageList
     ) {
       _id
     }
@@ -54,7 +61,7 @@ class CreateLogoScreen extends Component {
             borderColor: "#4a5257",
             borderRadius: 20,
             borderWidth: 10,
-            borderStyle: "solid", // Don't put in query
+            border: "solid", 
             margin: 2,
             height: 750,
             width: 800,
@@ -68,72 +75,72 @@ class CreateLogoScreen extends Component {
             bugCounter : 0,
             imageErrorAlert : false, // Don't put in schema
 
-            textBoxList : {
-                "textBox1" :{
+            textBoxList : [
+                {
                     name : "textBox1",
                     text: "textBox1",
                     color: "#FF0000",
-                    fontSize: "24pt",
+                    fontSize: "24px",
                     background : "transparent",
                     border : "none",
-                    xCoord: 10,
-                    yCoord: 10
+                    x: 10,
+                    y: 10
                 },
-                "textBox2" :{
+                {
                     name : "textBox2",
                     text: "textBox2",
                     color: "#FF0000",
-                    fontSize: "20pt",
+                    fontSize: "20px",
                     background : "transparent",
                     border : "none",
-                    xCoord: 50,
-                    yCoord: 40
+                    x: 50,
+                    y: 40
                 },
-                "textBox3" :{
+                {
                     name : "textBox3",
                     text: "textBox3",
                     color: "#FF00FF",
-                    fontSize: "40pt",
+                    fontSize: "40px",
                     background : "transparent",
                     border : "none",
-                    xCoord: 300,
-                    yCoord: 300
+                    x: 300,
+                    y: 300
                 },
-            },
-            imageList : {
-                "image1" : {
+            ],
+            imageList : [
+                {
                     name : "image1",
                     source : "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2002&q=80",
                     width : 200,
                     height : 200,
-                    xCoord : 400,
-                    yCoord : 400,
+                    x : 400,
+                    y : 400,
                 },
-                "image2" : {
+                {
                     name : "image2",
                     source : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Lillium_Stamens.jpg/800px-Lillium_Stamens.jpg",
                     width : 200,
                     height : 200,
-                    xCoord : 200,
-                    yCoord : 200,
+                    x : 200,
+                    y : 200,
                 },
-                "image3" : {
+                {
                     name : "image3",
                     source : "https://upload.wikimedia.org/wikipedia/commons/4/4d/Bees_Collecting_Pollen_cropped.jpg",
                     width : 200,
                     height : 200,
-                    xCoord : 100,
-                    yCoord : 100,
+                    x : 100,
+                    y : 100,
                 },
-                "image4" : {
+                {
                     name : "image4",
                     source : "https://upload.wikimedia.org/wikipedia/commons/e/eb/Ash_Tree_-_geograph.org.uk_-_590710.jpg",
                     width : 200,
                     height : 200,
-                    xCoord : 150,
-                    yCoord : 150,
+                    x : 150,
+                    y : 150,
                 }
-            },
+            ],
         };
 
         this.handleBorderWidthChange = this.handleBorderWidthChange.bind(this)
@@ -189,7 +196,6 @@ class CreateLogoScreen extends Component {
     };
 
     handleTextBoxFontColorChange = (event) => {
-        console.log(event.hex)
         this.setState({ textBoxFontColor : event.hex });
     }
 
@@ -235,7 +241,7 @@ class CreateLogoScreen extends Component {
     createTextBox = (textBoxListElement) =>{
 		return(
 			<div key = {textBoxListElement['fontSize'] + textBoxListElement['color']}>
-				<LogoTextBox style = {textBoxListElement} handleCloseTextBoxCallback = {this.handleCloseTextBox} />
+				<LogoTextBox style = {textBoxListElement} handleCloseTextBoxCallback = {this.handleCloseTextBox} handleLogoTextBoxTextChangeCallback = {this.handleLogoTextBoxTextChange} />
 			</div>
 		)
 		
@@ -244,7 +250,7 @@ class CreateLogoScreen extends Component {
 	createImage = (imageListElement) =>{
 		return(
 			<div key = {imageListElement.name.length + 3}>
-				<LogoImage style = {imageListElement} handleCloseImageCallback = {this.handleCloseImage}/>
+				<LogoImage style = {imageListElement} handleCloseImageCallback = {this.handleCloseImage}  />
 			</div>
 		)
 		
@@ -259,41 +265,41 @@ class CreateLogoScreen extends Component {
 	addTextBox = () => {
 		const updateTextBoxCounter = this.state.textBoxCounter + 1
 		const newTextBoxObjectName = "textBox" + updateTextBoxCounter
-		const newtextBoxList = this.state.textBoxList;
-		newtextBoxList[newTextBoxObjectName] = {
+		const newtextBoxObject = {
 			name : newTextBoxObjectName,
 			text: "Example Text",
 			color: this.state.textBoxFontColor,
 			fontSize: parseInt(this.state.textBoxFontSize) + "px",
 			background : "transparent",
 			border : "none",
-            width : 250,
-            height : 50,
-            xCoord: 450,
-            yCoord: 650
-		  }
+            x: 450,
+            y: 650
+          }
+        const updatedTextBoxList = this.state.textBoxList
+        updatedTextBoxList.push(newtextBoxObject)
 		this.setState({
-			textBoxList : newtextBoxList,
+			textBoxList : updatedTextBoxList    ,
 			textBoxCounter : updateTextBoxCounter
 		});
 	}
 
 	addImage = () => {
 		const regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
-		if(regexp.test(this.state.currentImageLink)){
+        if(regexp.test(this.state.currentImageLink)){
 			const updateImageCounter = this.state.imageCounter + 1;
 			const newImageListElementName = 'image' + updateImageCounter + this.state.currentImageLink;
-			const newImageList = this.state.imageList;
-			newImageList[newImageListElementName] = {
+			const newImageObject = {
 				name : newImageListElementName, 
 				source : this.state.currentImageLink,
 				width : 200,
 				height : 200, 
-				xCoord : 550, 
-				yCoord : 20
-			}
+				x : 550, 
+				y : 20
+            }
+            const updatedImageList = this.state.imageList
+            updatedImageList.push(newImageObject)
 			this.setState({
-				imageList : newImageList,
+				imageList : updatedImageList,
 				currentImageLink : "",
 				imageCounter : updateImageCounter
 			});
@@ -314,9 +320,8 @@ class CreateLogoScreen extends Component {
 	}
 
 	handleCloseImage = (imageToDelete) => {
-		const newImageList = this.state.imageList;
-		const updatedBugCounter = this.state.bugCounter + 1;
-		delete newImageList[imageToDelete];
+		const newImageList = _.filter(this.state.imageList, imageListElement => imageListElement.name !== imageToDelete)
+        const updatedBugCounter = this.state.bugCounter + 1;
 		this.setState({
 			imageList : newImageList,
 			bugCounter : updatedBugCounter
@@ -324,13 +329,25 @@ class CreateLogoScreen extends Component {
 	}
 	
 	handleCloseTextBox = (textBoxToDelete) => {
-		const newTextBoxList = this.state.textBoxList;
-		const updatedBugCounter = this.state.bugCounter + 1
-		delete newTextBoxList[textBoxToDelete];
+		const newTextBoxList = _.filter(this.   state.textBoxList, textBoxListElement => textBoxListElement.name !== textBoxToDelete)
+        const updatedBugCounter = this.state.bugCounter + 1;
 		this.setState({
 			textBoxList : newTextBoxList,
 			bugCounter : updatedBugCounter
 		})
+    }
+
+    handleLogoTextBoxTextChange = (textBoxToUpdate, newText) => {
+        console.log("TESTSETSET")
+        const newTexBoxtList = this.state.textBoxList;
+        for(var i = 0; i < newTexBoxtList.length; i++){
+            if(newTexBoxtList[i].name == textBoxToUpdate){
+                newTexBoxtList[i].text = newText;
+            }
+        }
+        this.setState({
+            textBoxList : newTexBoxtList
+        })
     }
 
     render() {
@@ -348,12 +365,34 @@ class CreateLogoScreen extends Component {
             textBoxFontSize : parseInt(this.state.textBoxFontSize) + "px"
         };
         return (
+        <Mutation
+            mutation={ADD_LOGO}
+            onCompleted={() => this.props.history.push("/")}
+        >
+        {(addLogo, { loading, error }) => (
         <div className="container panel panel-default" id = "mainContainer">
                 <div className="panel-heading">
                     <GologoloNavBar currentScreen = "Create Screen"/>
                         <form
                         onSubmit={(e) => {
                             e.preventDefault();
+                            addLogo({
+                            variables: {
+                                backgroundColor : this.state.backgroundColor,
+                                borderColor : this.state.borderColor,
+                                borderRadius : this.state.borderRadius,
+                                borderWidth : this.state.borderWidth,
+                                margin : this.state.margin,
+                                height : this.state.height,
+                                border : this.state.border,
+                                width : this.state.width,
+                                position : this.state.position,
+                                textBoxFontColor : this.state.textBoxFontColor,
+                                textBoxFontSize : this.state.textBoxFontSize,
+                                textBoxList : this.state.textBoxList,
+                                imageList : this.state.imageList
+                            },
+                            });
                         }}
                         style = {{marginLeft : "-250px", marginTop : "5%", borderStyle : "solid", borderColor : "black", borderRadius : "10px", borderWidth : "5px", padding : "20px 20px 20px 20px", backgroundColor : "rgb(229, 229, 229)"}}
                         >
@@ -427,14 +466,14 @@ class CreateLogoScreen extends Component {
                         <br></br>
 
                         <Button
-                            fullWidth
-                            type="submit"
-                            className="btn btn-success"
-                            style = {{marginTop : 20, backgroundColor : "#1976d2"}}
-                            startIcon = { <SaveOutlinedIcon/> }
-                        >
-                            Save Changes
-                        </Button>
+                                fullWidth
+                                type="submit"
+                                className="btn btn-success"
+                                style = {{marginTop : 20, backgroundColor : "#1976d2"}}
+                                startIcon = { <SaveOutlinedIcon/> }
+                            >
+                                Save New Logo
+                            </Button>
                         </form>
                         <div id = "createScreenLogoCanvas" style = {{display : "flex"}}>
                             <LogoCanvas 
@@ -451,7 +490,7 @@ class CreateLogoScreen extends Component {
                                 onCurrentImageLinkChangeCallback = {this.onCurrentImageLinkChange}
                                 handleImageErrorAlertCloseCallback = {this.handleImageErrorAlertClose}
                                 handleCloseImageCallback = {this.handleCloseImage}
-                                handleCloseTextBoxCallback = {this.handleCloseTextBox}    
+                                handleCloseTextBoxCallback = {this.handleCloseTextBox}  
                             />
                         </div>
                         <form
@@ -536,7 +575,9 @@ class CreateLogoScreen extends Component {
                         
                     </div>
             
-        </div>
+            </div>
+            )}
+            </Mutation>
         );
     }
 }

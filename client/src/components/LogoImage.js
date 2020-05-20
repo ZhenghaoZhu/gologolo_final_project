@@ -12,17 +12,23 @@ class LogoImage extends Component {
         this.state = {
             width : this.props.style.width,
             height : this.props.style.height,
-            x : this.props.style.xCoord,
-            y : this.props.style.yCoord
+            x : this.props.style.x,
+            y : this.props.style.y
         }
     }
 
     closeImageButtonClick = () => {
-        this.props.handleCloseImageCallback(this.props.style.name)
+        if(this.props.disableDraggingBoolean === undefined){
+            this.props.handleCloseImageCallback(this.props.style.name)
+        }
+        
     }
 
     render() {
-        console.log(this.props)
+        var disableDraggingViewScreen = true
+        if(this.props.disableDraggingBoolean === undefined){
+            disableDraggingViewScreen = false
+        }
         return (
             <Rnd
                 style = {{
@@ -34,13 +40,14 @@ class LogoImage extends Component {
                     this.setState({
                       width: ref.offsetWidth,
                       height: ref.offsetHeight,
-                      xCoord: position.x,
-                      yCoord: position.y
+                      x: position.x,
+                      y: position.y
                     });
                   }}
                 onDragStop={(e, d) => { this.setState({ x: d.x, y: d.y }) }}
                 resizeGrid={[20, 20]}
                 dragGrid={[20, 20]}
+                disableDragging = {disableDraggingViewScreen}
             >
                 <img  src = {this.props.style.source} alt = "" width = {this.state.width} height = {this.state.height}/>
                 <HighlightOffIcon onClick = {this.closeImageButtonClick}style = {{position : "absolute", top : "0px", right : "0px", color : "#616161"}}/>
@@ -52,4 +59,3 @@ class LogoImage extends Component {
 
 export default LogoImage
 
-// TODO: Save x-coord and y-coord in state

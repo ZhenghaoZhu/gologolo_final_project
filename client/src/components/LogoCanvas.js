@@ -17,11 +17,10 @@ export default class LogoCanvas extends React.PureComponent {
 
 	}
 
-	
 
 	render() {
 		return(
-				<div id = "logoCanvasMain" style = {{width : "800px"}} key = {"logoCanvas" + this.props.styles.borderColor}>
+				<div id = "logoCanvasMain" style = {{width : "800px"}} key = {"logoCanvas" + this.props.styles.position}>
 					<Snackbar
 						anchorOrigin={{
 							vertical: 'top',

@@ -17,35 +17,9 @@ var logoTextBoxType = new GraphQLObjectType({
     name: "logoTextBox",
         fields: function () {
             return {
-            text: {
-                type: GraphQLString,
-            },
-            color: {
-                type: GraphQLString,
-            },
-            fontSize: {
-                type: GraphQLInt,
-            },
-            width : {
-                type : GraphQLInt
-            },
-            height : {
-                type : GraphQLInt
-            },
-            xCoord: {
-                type: GraphQLInt,
-            },
-            yCoord: {
-                type: GraphQLInt,
-            },
-        };
-     },
-});
-
-var logoTextBoxTypeInput = new GraphQLInputObjectType({
-    name: "logoTextBoxInput",
-        fields: function () {
-            return {
+                name : {
+                    type : GraphQLString
+                },
                 text: {
                     type: GraphQLString,
                 },
@@ -53,21 +27,53 @@ var logoTextBoxTypeInput = new GraphQLInputObjectType({
                     type: GraphQLString,
                 },
                 fontSize: {
+                    type: GraphQLString,
+                },
+                background : {
+                    type : GraphQLString
+                },
+                border : {
+                    type : GraphQLString
+                },
+                x: {
                     type: GraphQLInt,
                 },
-                width : {
-                    type : GraphQLInt
-                },
-                height : {
-                    type : GraphQLInt
-                },
-                xCoord: {
+                y: {
                     type: GraphQLInt,
                 },
-                yCoord: {
-                    type: GraphQLInt,
-                },
-            };
+        };
+     },
+});
+
+var logoTextBoxTypeInput = new GraphQLInputObjectType({
+    name: "logoTextBoxInput",
+    fields: function () {
+        return {
+            name : {
+                type : GraphQLString
+            },
+            text: {
+                type: GraphQLString,
+            },
+            color: {
+                type: GraphQLString,
+            },
+            fontSize: {
+                type: GraphQLString,
+            },
+            background : {
+                type : GraphQLString
+            },
+            border : {
+                type : GraphQLString
+            },
+            x: {
+                type: GraphQLInt,
+            },
+            y: {
+                type: GraphQLInt,
+            },
+        };
         },
 });
 
@@ -90,10 +96,10 @@ var logoImageType = new GraphQLObjectType({
             height : {
                 type : GraphQLInt
             },
-            xCoord: {
+            x: {
                 type: GraphQLInt,
             },
-            yCoord: {
+            y: {
                 type: GraphQLInt,
             },
         };
@@ -116,10 +122,10 @@ var logoImageTypeInput = new GraphQLInputObjectType({
             height : {
                 type : GraphQLInt
             },
-            xCoord: {
+            x: {
                 type: GraphQLInt,
             },
-            yCoord: {
+            y: {
                 type: GraphQLInt,
             },
         };
@@ -131,46 +137,52 @@ var logoImageTypeInput = new GraphQLInputObjectType({
 var logoCanvasType = new GraphQLObjectType({
     name: "logo",
     fields: function () {
-      return {
-        _id: {
-          type: GraphQLString,
-        },
-        backgroundColor: {
+        return {
+            _id: {
             type: GraphQLString,
-        },
-        borderColor: {
-            type: GraphQLString,
-        },
-        borderRadius: {
-            type: GraphQLInt,
-        },
-        borderWidth: {
-            type: GraphQLInt,
-        },
-        margin: {
-            type: GraphQLInt,
-        },
-        height: {
-            type: GraphQLInt,
-        },
-        width: {
-            type: GraphQLInt,
-        },
-        textBoxFontColor : {
-            type: GraphQLString
-        },
-        textBoxFontSize : {
-            type : GraphQLInt
-        },
-        textBoxList: {
-            type: GraphQLList(logoTextBoxType),
-        },
-        imageList: {
-            type: GraphQLList(logoImageType),
-        },
-        lastUpdate: {
-            type: GraphQLDate,
-        },
+            },
+            backgroundColor: {
+                type: GraphQLString,
+            },
+            borderColor: {
+                type: GraphQLString,
+            },
+            borderRadius: {
+                type: GraphQLInt,
+            },
+            borderWidth: {
+                type: GraphQLInt,
+            },
+            margin: {
+                type: GraphQLInt,
+            },
+            height: {
+                type: GraphQLInt,
+            },
+            width: {
+                type: GraphQLInt,
+            },
+            border : {
+                type : GraphQLString
+            },
+            position : {
+                type : GraphQLString
+            },
+            textBoxFontColor : {
+                type: GraphQLString
+            },
+            textBoxFontSize : {
+                type : GraphQLInt
+            },
+            textBoxList: {
+                type: GraphQLList(logoTextBoxType),
+            },
+            imageList: {
+                type: GraphQLList(logoImageType),
+            },
+            lastUpdate: {
+                type: GraphQLDate,
+            },
       };
     },
   });
@@ -239,6 +251,12 @@ var mutation = new GraphQLObjectType({
                         width: {
                             type: new GraphQLNonNull(GraphQLInt),
                         },
+                        border : {
+                            type : new GraphQLNonNull(GraphQLString)
+                        },
+                        position : {
+                            type : new GraphQLNonNull(GraphQLString)
+                        },
                         textBoxFontColor : {
                             type: new GraphQLNonNull(GraphQLString),
                         },
@@ -260,12 +278,96 @@ var mutation = new GraphQLObjectType({
                     }
                         return newLogoCanvas;
                     },
-            }
+            },
+            updateLogo: {
+                type: logoCanvasType,
+                    args: {
+                        id: {
+                            name: "id",
+                            type: new GraphQLNonNull(GraphQLString),
+                        },
+                        backgroundColor: {
+                            type: new GraphQLNonNull(GraphQLString),
+                        },
+                        borderColor: {
+                            type: new GraphQLNonNull(GraphQLString),
+                        },
+                        borderRadius: {
+                            type: new GraphQLNonNull(GraphQLInt),
+                        },
+                        borderWidth: {
+                            type: new GraphQLNonNull(GraphQLInt),
+                        },
+                        margin: {
+                            type: new GraphQLNonNull(GraphQLInt),
+                        },
+                        height: {
+                            type: new GraphQLNonNull(GraphQLInt),
+                        },
+                        width: {
+                            type: new GraphQLNonNull(GraphQLInt),
+                        },
+                        border : {
+                            type : new GraphQLNonNull(GraphQLString)
+                        },
+                        position : {
+                            type : new GraphQLNonNull(GraphQLString)
+                        },
+                        textBoxFontColor : {
+                            type: new GraphQLNonNull(GraphQLString),
+                        },
+                        textBoxFontSize : {
+                            type : new GraphQLNonNull(GraphQLInt)
+                        },
+                        textBoxList : {
+                            type: new GraphQLNonNull(GraphQLList(logoTextBoxTypeInput)),
+                        },
+                        imageList: {
+                            type: new GraphQLNonNull(GraphQLList(logoImageTypeInput)),
+                        },
+                },
+                resolve(root, params) {
+                        return LogoCanvasModel.findByIdAndUpdate(
+                            params.id,
+                            {
+                            backgroundColor: params.backgroundColor,
+                            borderColor: params.borderColor,
+                            borderRadius: params.borderRadius,
+                            borderWidth: params.borderWidth,
+                            margin: params.margin,
+                            height: params.height,
+                            width: params.width,
+                            border : params.border,
+                            position : params.absolute,
+                            textBoxFontColor : params.textBoxFontColor,
+                            textBoxFontSize : params.textBoxFontSize,
+                            textBoxList: params.textBoxList,
+                            imageList: params.imageList,
+                            lastUpdate: new Date(),
+                            },
+                            function (err) {
+                            if (err) return next(err);
+                        }
+                    ); 
+                },
+            },
+            removeLogo: {
+                type: logoCanvasType,
+                    args: {
+                        id: {
+                        type: new GraphQLNonNull(GraphQLString),
+                        },
+                    },
+                    resolve(root, params) {
+                        const remLogo = LogoCanvasModel.findByIdAndRemove(params.id).exec();
+                        if (!remLogo) {
+                            throw new Error("Error");
+                        }
+                        return remLogo;
+                },
+            },
         }
     }
 });
 
 module.exports = new GraphQLSchema({ query: queryType, mutation: mutation });
-
-
-// TODO: Update logoSchema with appropriate structures for LogoCanvas, LogoTextBox, and LogoImage

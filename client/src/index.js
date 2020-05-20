@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
@@ -12,9 +13,10 @@ import EditLogoScreen from './components/EditLogoScreen';
 import CreateLogoScreen from './components/CreateLogoScreen';
 import ViewLogoScreen from './components/ViewLogoScreen';
 import LoginScreen from './components/LoginScreen';
-import testingScreen from './components/testingScreen';
 
-const client = new ApolloClient({ uri: 'http://localhost:3000/graphql' });
+const client = new ApolloClient({ uri: 'http://localhost:3000/graphql', cache: new InMemoryCache({
+    addTypename: false
+  })});
 
 ReactDOM.render(
     <ApolloProvider client={client}>
@@ -22,7 +24,6 @@ ReactDOM.render(
             <div>
                 <Route exact path = '/' component = {HomeScreen} />
                 <Route path = '/login' component = {LoginScreen} />
-                <Route path = "/testing" component = {testingScreen} />
                 <Route path = '/edit/:id' component = {EditLogoScreen} />
                 <Route path = '/create' component = {CreateLogoScreen} />
                 <Route path = '/view/:id' component = {ViewLogoScreen} />
