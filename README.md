@@ -4,15 +4,40 @@
     query {
       logos {
         _id,
-        text,
-        color,
-        fontSize,
         backgroundColor,
         borderColor,
         borderRadius,
         borderWidth,
-        lastUpdate,
-        ms
+        margin,
+        height,
+        width,
+      position,	
+        textBoxFontColor,
+        textBoxFontSize,
+        textBoxList{
+          name,
+          x,
+          y
+        },
+        textBoxList{
+          name,
+          text,
+          color,
+          fontSize,
+          background,
+          border,
+          x,
+          y
+        },
+        imageList {
+          name,
+          source,
+          width,
+          height,
+          x,
+          y
+        }
+        lastUpdate
       }
     }
 #
@@ -21,26 +46,71 @@
 ### Use this command to add an example logo into the database
 
     mutation {
-      addLogo(text: "Example Text for Logo", 
-        			color: "#FFA500",
-      				fontSize: 45,
-      				backgroundColor: "#FFFFFF",
-      				borderColor: "#ABC4E7",
-      				borderRadius: 23,
-      				borderWidth: 16,
-        			padding: 23,
-        			margin: 26
-      			) {
-        text,
-        color,
-        fontSize,
-        backgroundColor,
-        borderColor,
-        borderRadius,
-        borderWidth,
+      addLogo(
+        backgroundColor : "43wresdvt4r",
+        borderColor: "43wresdvt4r",
+        borderRadius: 50,
+        borderWidth: 50,
+        border : "solid"
+        margin: 9
+        height: 800,
+        width: 800,
+        position : "absolute",
+        textBoxFontColor: "43wresdvt4r",
+        textBoxFontSize: 50,
+        textBoxList: [
+          {
+            name : "43wresdvt4r",
+            text : "test",
+            color : "color",
+            fontSize : "23",
+            x : 10,
+            y : 10
+          }
+        ]
+        imageList: [
+          {
+            name : "image1",
+            source : "https://upload.wikimedia.org/wikipedia/commons/4/4d/Bees_Collecting_Pollen_cropped.jpg",
+            width : 200,
+            height : 200,
+            x : 20,
+            y : 20
+          }
+        ]
+      
+      ) {
+        _id
+        backgroundColor
+        borderColor
+        borderRadius
+        borderWidth
+        margin
+        height
+        width
+        textBoxFontColor
+        textBoxFontSize
         lastUpdate
+        textBoxList{
+          text
+          color
+          fontSize
+          border
+          background
+          x
+          y
+        }
+        imageList{
+          name
+          source
+          width
+          height
+          x
+          y
+        }
       }
     }
+
 
 ### Query the database again and get the _id of the logo you just added
 
@@ -49,25 +119,33 @@
 ### Now, copy the code below but also remember to replace "[ID HERE]" with the _id you just got from the logo you created.
 
     mutation {
-      updateLogo(
-        			id: [ID HERE],
-        			text: "Example Text Update Logo", 
-        			color: "#FFA500",
-      				fontSize: 45,
-      				backgroundColor: "#FFFFFF",
-      				borderColor: "#ABC4E7",
-      				borderRadius: 23,
-      				borderWidth: 16,
-        			padding: 23,
-        			margin: 26
-      			) {
-        text,
-        color,
-        fontSize,
-        backgroundColor,
-        borderColor,
-        borderRadius,
-        borderWidth,
+      updateLogo (
+        id : "5ec5ce2c4dabd31cc8d86614",
+        backgroundColor : "black",
+        borderColor: "black",
+        borderRadius: 50,
+        borderWidth: 50,
+        border : "solid",
+        position : "absolute",
+        margin: 9
+        height: 800,
+        width: 800,
+        textBoxFontColor: "black",
+        textBoxFontSize: 50,
+        textBoxList: []
+        imageList: []
+      
+      ) {
+        _id
+        backgroundColor
+        borderColor
+        borderRadius
+        borderWidth
+        margin
+        height
+        width
+        textBoxFontColor
+        textBoxFontSize
         lastUpdate
       }
     }
