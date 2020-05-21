@@ -8,7 +8,6 @@ import GologoloNavBar from './GologoloNavBar.js';
 import LogoTextBox from './LogoTextBox.js';
 import LogoImage from './LogoImage.js';
 import { List, ListItem, ListItemIcon, ListItemText, Button } from '@material-ui/core'
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import HeightIcon from '@material-ui/icons/Height';
@@ -61,6 +60,13 @@ const DELETE_LOGO = gql`
 `;
 
 class ViewLogoScreen extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+        }
+    }
 
     createTextBox = (textBoxListElement) =>{
 		return(
@@ -81,15 +87,6 @@ class ViewLogoScreen extends Component {
 	}
 
     render() {
-
-        function generate(element) {
-            return [0, 1, 2].map((value) =>
-              React.cloneElement(element, {
-                key: value,
-              }),
-            );
-        }
-
         return (
             <Query pollInterval={500} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
@@ -104,11 +101,10 @@ class ViewLogoScreen extends Component {
                         margin: parseInt(data.logo.margin) + "px",
                         height: parseInt(data.logo.height) + "px",
                         width: parseInt(data.logo.width) + "px",
-                        position : "absolute"
+                        position : "fixed"
                     };
                     var logoTitle = ""
                     _.map(data.logo.textBoxList, textBoxListElement => logoTitle += textBoxListElement.text)
-                    console.log(logoTitle)
                     return (
                         <div className="container panel panel-default" id = "mainContainer">
                             <div className="panel-heading">

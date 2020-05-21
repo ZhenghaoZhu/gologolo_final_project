@@ -46,10 +46,10 @@ export default class LogoCanvas extends React.PureComponent {
 					<input  onChange = {this.props.onCurrentImageLinkChangeCallback} id = "imageLinkTextField" placeholder = "Image Link" value = {this.props.currentImageLink}/>
 					<Button variant = "outlined" onClick = {this.props.addImageCallback} id = "addImageButton" startIcon = { <ImageIcon/> }>Add Image</Button>
 					<Button variant = "outlined" onClick = {this.props.addTextBoxCallback} id = "addTextBoxButton" startIcon = { <AddBoxIcon/> }>Add Text Box</Button>
-					<body id = "logoCanvasImageZone" style = {this.props.styles} className = "logoTextBoxAndImageBounds">
+					<div id = "logoCanvasImageZone" style = {this.props.styles} className = "logoTextBoxAndImageBounds">
 						{_.map(this.props.textBoxList, textBoxListElement => this.props.createTextBoxCallback(textBoxListElement))}
 						{_.map(this.props.imageList, imageListElement => this.props.createImageCallback(imageListElement))}
-					</body>
+					</div>
 				</div>
 		) 
 	} 

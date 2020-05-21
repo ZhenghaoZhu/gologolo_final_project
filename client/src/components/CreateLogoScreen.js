@@ -241,7 +241,11 @@ class CreateLogoScreen extends Component {
     createTextBox = (textBoxListElement) =>{
 		return(
 			<div key = {textBoxListElement['fontSize'] + textBoxListElement['color']}>
-				<LogoTextBox style = {textBoxListElement} handleCloseTextBoxCallback = {this.handleCloseTextBox} handleLogoTextBoxTextChangeCallback = {this.handleLogoTextBoxTextChange} />
+                <LogoTextBox style = {textBoxListElement} 
+                             handleCloseTextBoxCallback = {this.handleCloseTextBox} 
+                             handleLogoTextBoxTextChangeCallback = {this.handleLogoTextBoxTextChange} 
+                             handleTextBoxDragCallback = {this.handleTextBoxDrag} 
+                />
 			</div>
 		)
 		
@@ -250,7 +254,11 @@ class CreateLogoScreen extends Component {
 	createImage = (imageListElement) =>{
 		return(
 			<div key = {imageListElement.name.length + 3}>
-				<LogoImage style = {imageListElement} handleCloseImageCallback = {this.handleCloseImage}  />
+                <LogoImage style = {imageListElement} 
+                           handleCloseImageCallback = {this.handleCloseImage}  
+                           handleImageResizeDragCallback = {this.handleImageResizeDrag}
+                           onClick={(event) => this.handleChangeFocus(event)}
+                />
 			</div>
 		)
 		
@@ -337,16 +345,48 @@ class CreateLogoScreen extends Component {
 		})
     }
 
-    handleLogoTextBoxTextChange = (textBoxToUpdate, newText) => {
-        console.log("TESTSETSET")
+    handleLogoTextBoxTextChange = (textBoxToUpdate, newStyle) => {
         const newTexBoxtList = this.state.textBoxList;
+        const updatedBugCounter = this.state.bugCounter + 1;
         for(var i = 0; i < newTexBoxtList.length; i++){
             if(newTexBoxtList[i].name == textBoxToUpdate){
-                newTexBoxtList[i].text = newText;
+                newTexBoxtList[i] = newStyle;
+                break;
             }
         }
         this.setState({
-            textBoxList : newTexBoxtList
+            textBoxList : newTexBoxtList,
+            bugCounter : updatedBugCounter
+        })
+    }
+
+    handleImageResizeDrag = (imageToUpdate, newStyle) => {
+        const newImageList = this.state.imageList;
+        const updatedBugCounter = this.state.bugCounter + 1;
+        for(var i = 0; i < newImageList.length; i++){
+            if(newImageList[i].name == imageToUpdate){
+                newImageList[i] = newStyle;
+                break;
+            }
+        }
+        this.setState({
+            imageList : newImageList,
+            bugCounter : updatedBugCounter
+        })
+    }
+
+    handleTextBoxDrag = (textBoxToUpdate, newStyle) => {
+        const newTextBoxList = this.state.textBoxList;
+        const updatedBugCounter = this.state.bugCounter + 1;
+        for(var i = 0; i < newTextBoxList.length; i++){
+            if(newTextBoxList[i].name == textBoxToUpdate){
+                newTextBoxList[i] = newStyle;
+                break;
+            }
+        }
+        this.setState({
+            textBoxList : newTextBoxList,
+            bugCounter : updatedBugCounter
         })
     }
 
@@ -380,15 +420,15 @@ class CreateLogoScreen extends Component {
                             variables: {
                                 backgroundColor : this.state.backgroundColor,
                                 borderColor : this.state.borderColor,
-                                borderRadius : this.state.borderRadius,
-                                borderWidth : this.state.borderWidth,
-                                margin : this.state.margin,
-                                height : this.state.height,
+                                borderRadius : parseInt(this.state.borderRadius),
+                                borderWidth : parseInt(this.state.borderWidth),
+                                margin : parseInt(this.state.margin),
+                                height : parseInt(this.state.height),
                                 border : this.state.border,
-                                width : this.state.width,
+                                width : parseInt(this.state.width),
                                 position : this.state.position,
                                 textBoxFontColor : this.state.textBoxFontColor,
-                                textBoxFontSize : this.state.textBoxFontSize,
+                                textBoxFontSize : parseInt(this.state.textBoxFontSize),
                                 textBoxList : this.state.textBoxList,
                                 imageList : this.state.imageList
                             },
@@ -490,7 +530,7 @@ class CreateLogoScreen extends Component {
                                 onCurrentImageLinkChangeCallback = {this.onCurrentImageLinkChange}
                                 handleImageErrorAlertCloseCallback = {this.handleImageErrorAlertClose}
                                 handleCloseImageCallback = {this.handleCloseImage}
-                                handleCloseTextBoxCallback = {this.handleCloseTextBox}  
+                                handleCloseTextBoxCallback = {this.handleCloseTextBox}
                             />
                         </div>
                         <form
@@ -559,7 +599,7 @@ class CreateLogoScreen extends Component {
                                     style = {{marginTop : "20px"}}
                                     type = "number"
                                     InputProps={{ inputProps: { min: 100, max: 1000, step : 5 } }}
-                                    error ={this.state.height > 99 && this.state.   height < 1001 ? false : true }
+                                    error ={this.state.height > 99 && this.state.height < 1001 ? false : true }
                                     helperText = "Value should be between 100 - 1000 (Inclusive)"
                                     InputProps={{
                                     startAdornment: (

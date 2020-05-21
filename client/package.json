@@ -19,6 +19,7 @@
     "react": "^16.8.6",
     "react-apollo": "^2.5.4",
     "react-color": "^2.18.1",
+    "react-contenteditable": "^3.3.4",
     "react-dom": "^16.8.6",
     "react-draggable": "^4.3.1",
     "react-grid-layout": "^0.18.3",

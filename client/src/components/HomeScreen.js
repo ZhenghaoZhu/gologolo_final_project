@@ -4,11 +4,15 @@ import '../App.css';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Grid, Button } from '@material-ui/core'
+import _ from "lodash";
 
 const GET_LOGOS = gql`
   {
     logos {
       _id
+      textBoxList{
+          text
+      }
       lastUpdate
     }
   }
@@ -29,13 +33,21 @@ const compareDates = (ds1, ds2) => {
 
 class HomeScreen extends Component {
 
+    getLogoTitle (currentLogo) {
+        console.log(currentLogo);
+        var logoTitle = ""
+        for(var i = 0; i < currentLogo.length; i++) {
+            logoTitle += currentLogo[i]['text']
+        }
+        return logoTitle
+    }
     render() {
         return (
             <Query pollInterval={500} query={GET_LOGOS}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
-
+                    // logoText, id, lastUpdate
                     return (
                         <div id = "navBarAndMainDiv">
                             <div id = "homeScreenNavBar">
@@ -59,7 +71,7 @@ class HomeScreen extends Component {
                                         <h3 id = "recentWorkListTitle">Recent Work List</h3>
                                         {data.logos.sort((x, y) => -compareDates(x.lastUpdate, y.lastUpdate)).map((logo, index) => (
                                             <div key={index} className='home_logo_link'>
-                                                <Link to={`/view/${logo._id}`} className="home_logo_link_text" style={{ cursor: "pointer" }}>{"‣ " + logo._id}</Link>
+                                                <Link to={`/view/${logo._id}`} className="home_logo_link_text" style={{ cursor: "pointer" }}>{"‣ " + this.getLogoTitle(logo.textBoxList)}</Link>
                                             </div>
                                         ))}
                                     </div>

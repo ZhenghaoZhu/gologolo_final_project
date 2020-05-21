@@ -219,7 +219,11 @@ class EditLogoScreen extends Component {
     createTextBox = (textBoxListElement) =>{
 		return(
 			<div key = {textBoxListElement['fontSize'] + textBoxListElement['color']}>
-				<LogoTextBox style = {textBoxListElement} handleCloseTextBoxCallback = {this.handleCloseTextBox} />
+                <LogoTextBox style = {textBoxListElement} 
+                             handleLogoTextBoxTextChangeCallback = {this.handleLogoTextBoxTextChange} 
+                             handleCloseTextBoxCallback = {this.handleCloseTextBox} 
+                             handleTextBoxDragCallback = {this.handleTextBoxDrag} 
+                             />
 			</div>
 		)
 		
@@ -228,7 +232,7 @@ class EditLogoScreen extends Component {
 	createImage = (imageListElement) =>{
 		return(
 			<div key = {imageListElement.name.length + 3}>
-				<LogoImage style = {imageListElement} handleCloseImageCallback = {this.handleCloseImage}/>
+				<LogoImage style = {imageListElement} handleCloseImageCallback = {this.handleCloseImage} handleImageResizeDragCallback = {this.handleImageResizeDrag}/>
 			</div>
 		)
 		
@@ -315,6 +319,36 @@ class EditLogoScreen extends Component {
 		})
     }
 
+    handleLogoTextBoxTextChange = (textBoxToUpdate, newStyle) => {
+        const newTexBoxtList = this.state.textBoxList;
+        const updatedBugCounter = this.state.bugCounter + 1;
+        for(var i = 0; i < newTexBoxtList.length; i++){
+            if(newTexBoxtList[i].name === textBoxToUpdate){
+                newTexBoxtList[i] = newStyle;
+                break;
+            }
+        }
+        this.setState({
+            textBoxList : newTexBoxtList,
+            bugCounter : updatedBugCounter
+        })
+    }
+
+    handleTextBoxDrag = (textBoxToUpdate, newStyle) => {
+        const newTextBoxList = this.state.textBoxList;
+        const updatedBugCounter = this.state.bugCounter + 1;
+        for(var i = 0; i < newTextBoxList.length; i++){
+            if(newTextBoxList[i].name == textBoxToUpdate){
+                newTextBoxList[i] = newStyle;
+                break;
+            }
+        }
+        this.setState({
+            textBoxList : newTextBoxList,
+            bugCounter : updatedBugCounter
+        })
+    }
+
   updateLogoDataState(
     updatedBackgroundColor,
     updatedBorderColor,
@@ -347,6 +381,20 @@ class EditLogoScreen extends Component {
     })
 
   }
+  handleImageResizeDrag = (imageToUpdate, newStyle) => {
+    const newImageList = this.state.imageList;
+    const updatedBugCounter = this.state.bugCounter + 1;
+    for(var i = 0; i < newImageList.length; i++){
+        if(newImageList[i].name === imageToUpdate){
+            newImageList[i] = newStyle;
+            break;
+        }
+    }
+    this.setState({
+        imageList : newImageList,
+        bugCounter : updatedBugCounter
+    })
+  }   
 
     render() {
         return(
@@ -355,7 +403,7 @@ class EditLogoScreen extends Component {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
 
-                    if(this.state.position == null){
+                    if(this.state.position === null){
                       this.updateLogoDataState(
                         data.logo.backgroundColor,
                         data.logo.borderColor,
@@ -518,7 +566,7 @@ class EditLogoScreen extends Component {
                                             onCurrentImageLinkChangeCallback = {this.onCurrentImageLinkChange}
                                             handleImageErrorAlertCloseCallback = {this.handleImageErrorAlertClose}
                                             handleCloseImageCallback = {this.handleCloseImage}
-                                            handleCloseTextBoxCallback = {this.handleCloseTextBox}    
+                                            handleCloseTextBoxCallback = {this.handleCloseTextBox} 
                                         />
                                     </div>
                                     <form
@@ -587,7 +635,7 @@ class EditLogoScreen extends Component {
                                                 style = {{marginTop : "20px"}}
                                                 type = "number"
                                                 InputProps={{ inputProps: { min: 100, max: 1000, step : 5 } }}
-                                                error ={this.state.height > 99 && this.state.   height < 1001 ? false : true }
+                                                error ={this.state.height > 99 && this.state.height < 1001 ? false : true }
                                                 helperText = "Value should be between 100 - 1000 (Inclusive)"
                                                 InputProps={{
                                                 startAdornment: (

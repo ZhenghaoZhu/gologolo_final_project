@@ -26,6 +26,7 @@ body {
   font-size: 48pt;
   padding-top: 30px;
   padding-bottom: 30px;
+  margin-left: -150px;
   border-radius: 5px;
   text-align: center;
   width: 600px;
@@ -55,6 +56,7 @@ body {
   font-size: 30px;
   margin-top: 10px;
   border-radius: 5px;
+  margin-left: -150px;
 }
 
 #homeToCreateScreenButtonLink {
@@ -68,12 +70,16 @@ body {
 }
 
 #homeLeftSideDiv {
-  margin-right: 12%;
+  margin-right: 9%;
 }
 
 #recentWorkListTitle {
   font-size: 27px;
   text-decoration: underline;
+}
+
+#recentWorkList {
+  margin-left: -200px;
 }
 
 #homeLogOutButton {

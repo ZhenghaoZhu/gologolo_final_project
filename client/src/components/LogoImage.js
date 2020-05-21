@@ -10,6 +10,8 @@ class LogoImage extends Component {
         super(props)
 
         this.state = {
+            name : this.props.style.name,
+            source : this.props.style.source,
             width : this.props.style.width,
             height : this.props.style.height,
             x : this.props.style.x,
@@ -24,11 +26,24 @@ class LogoImage extends Component {
         
     }
 
+    handleImageResizeDrag = (imageToUpdate, newCoordinates, cleanCoordinates) => {
+        const cleanNewCoordinates = newCoordinates
+        if(cleanCoordinates){
+            cleanNewCoordinates['width'] = cleanNewCoordinates['width'].replace("px", "")
+            cleanNewCoordinates['width'] = parseInt(cleanNewCoordinates['width'])
+            cleanNewCoordinates['height'] = cleanNewCoordinates['height'].replace("px", "")
+            cleanNewCoordinates['height'] = parseInt(cleanNewCoordinates['height'])
+        }
+        this.props.handleImageResizeDragCallback(imageToUpdate, newCoordinates)
+    }
+
     render() {
         var disableDraggingViewScreen = true
         if(this.props.disableDraggingBoolean === undefined){
             disableDraggingViewScreen = false
         }
+        console.log('State', this.state)
+        console.log('Props', this.props)
         return (
             <Rnd
                 style = {{
@@ -36,20 +51,30 @@ class LogoImage extends Component {
                 }}
                 bounds=".logoTextBoxAndImageBounds"
                 default = {this.state}
-                onResize={(e, direction, ref, delta, position) => {
-                    this.setState({
-                      width: ref.offsetWidth,
-                      height: ref.offsetHeight,
-                      x: position.x,
-                      y: position.y
-                    });
-                  }}
-                onDragStop={(e, d) => { this.setState({ x: d.x, y: d.y }) }}
+                onResizeStop={(e, direction, ref, delta, position) => {
+                    this.handleImageResizeDrag(this.props.style.name,{
+                      name : this.state.name,
+                      source : this.state.source,
+                      width: ref.style.width,
+                      height: ref.style.height,
+                      ...position
+                    }, true);
+                }}
+                onDragStop={(e, d) => { 
+                    this.handleImageResizeDrag(this.props.style.name,{ 
+                        name : this.props.style.name,
+                        source : this.props.style.source,
+                        width : this.state.width,
+                        height : this.state.height,
+                        x: d.x, 
+                        y: d.y 
+                    }, false) 
+                }}
                 resizeGrid={[20, 20]}
                 dragGrid={[20, 20]}
                 disableDragging = {disableDraggingViewScreen}
             >
-                <img  src = {this.props.style.source} alt = "" width = {this.state.width} height = {this.state.height}/>
+                <img  src = {this.props.style.source} alt = "" width = {this.props.style.width} height = {this.props.style.height}/>
                 <HighlightOffIcon onClick = {this.closeImageButtonClick}style = {{position : "absolute", top : "0px", right : "0px", color : "#616161"}}/>
             </Rnd>
         )
